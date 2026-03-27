@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DisputeShield — Stop Losing Money to Chargebacks</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:    #080A10;
+  --deep:   #0D1019;
+  --surface:#141926;
+  --card:   #1A2135;
+  --line:   rgba(255,255,255,0.06);
+  --text:   #E8ECF5;
+  --dim:    #8892A8;
+  --muted:  #4A5268;
+  --blue:   #1A6CFF;
+  --cyan:   #00DEFF;
+  --green:  #00C98D;
+  --red:    #FF3D57;
+  --gold:   #FFB800;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+
+body {
+font-family:‘Bricolage Grotesque’,sans-serif;
+background:var(–ink);
+color:var(–text);
+overflow-x:hidden;
+}
+
+/* GRID TEXTURE */
+body::before {
+content:’’;
+position:fixed;inset:0;
+background-image:
+linear-gradient(rgba(26,108,255,0.025) 1px, transparent 1px),
+linear-gradient(90deg, rgba(26,108,255,0.025) 1px, transparent 1px);
+background-size:48px 48px;
+pointer-events:none;z-index:0;
+}
+
+/* AMBIENT GLOWS */
+.glow-hero {
+position:absolute;
+top:-200px;left:50%;transform:translateX(-50%);
+width:900px;height:600px;
+background:radial-gradient(ellipse, rgba(26,108,255,0.14) 0%, transparent 65%);
+pointer-events:none;z-index:0;
+}
+.glow-red {
+position:absolute;
+top:80px;right:-100px;
+width:400px;height:400px;
+background:radial-gradient(circle, rgba(255,61,87,0.08) 0%, transparent 65%);
+pointer-events:none;
+}
+
+/* NAV */
+nav {
+position:fixed;top:0;left:0;right:0;z-index:100;
+display:flex;align-items:center;justify-content:space-between;
+padding:0 40px;height:62px;
+background:rgba(8,10,16,0.88);
+backdrop-filter:blur(20px);
+border-bottom:1px solid var(–line);
+animation:fadeDown 0.5s ease both;
+}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+
+.nav-logo {
+display:flex;align-items:center;gap:10px;
+font-size:18px;font-weight:800;letter-spacing:-0.5px;
+}
+.nav-logo svg{flex-shrink:0;}
+.logo-dispute{color:var(–text);}
+.logo-shield{color:var(–cyan);}
+
+.nav-links {display:flex;gap:28px;}
+.nav-links a {
+font-size:13px;font-weight:500;color:var(–dim);
+text-decoration:none;transition:color 0.2s;
+}
+.nav-links a:hover{color:var(–text);}
+.nav-cta {
+background:var(–blue);color:#fff;
+font-family:‘Bricolage Grotesque’,sans-serif;
+font-size:13px;font-weight:700;
+padding:9px 20px;border-radius:8px;border:none;
+cursor:pointer;transition:all 0.2s;
+}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(26,108,255,0.4);}
+
+/* HERO */
+.hero {
+position:relative;z-index:1;
+padding:160px 40px 100px;
+max-width:1160px;margin:0 auto;
+text-align:center;
+}
+
+.hero-alert {
+display:inline-flex;align-items:center;gap:10px;
+background:rgba(255,61,87,0.08);
+border:1px solid rgba(255,61,87,0.2);
+padding:7px 18px;border-radius:100px;
+font-family:‘IBM Plex Mono’,monospace;
+font-size:11px;color:var(–red);
+letter-spacing:0.04em;margin-bottom:36px;
+animation:fadeUp 0.5s 0.1s ease both;
+}
+.alert-dot{
+width:6px;height:6px;border-radius:50%;
+background:var(–red);
+animation:pulse 1.5s ease infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(0.7);}}
+
+h1 {
+font-size:clamp(42px,7vw,90px);
+font-weight:800;line-height:1.01;
+letter-spacing:-3.5px;
+margin-bottom:10px;
+animation:fadeUp 0.5s 0.15s ease both;
+}
+h1 .line2 {
+background:linear-gradient(135deg, var(–cyan), var(–blue));
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+display:block;
+}
+
+.hero-sub {
+font-size:clamp(17px,2.2vw,21px);
+color:var(–dim);line-height:1.6;
+max-width:580px;margin:24px auto 0;
+animation:fadeUp 0.5s 0.2s ease both;
+}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* HERO CTA */
+.hero-cta-wrap {
+margin-top:44px;
+animation:fadeUp 0.5s 0.25s ease both;
+}
+.email-form {
+display:flex;gap:10px;max-width:480px;
+margin:0 auto 14px;
+}
+.email-input {
+flex:1;background:var(–surface);
+border:1px solid rgba(26,108,255,0.25);
+border-radius:10px;padding:14px 18px;
+font-family:‘Bricolage Grotesque’,sans-serif;
+font-size:14px;color:var(–text);
+outline:none;transition:border-color 0.2s;
+}
+.email-input:focus{border-color:rgba(26,108,255,0.6);}
+.email-input::placeholder{color:var(–muted);}
+.cta-btn {
+background:linear-gradient(135deg,var(–blue),#0050E0);
+color:#fff;
+font-family:‘Bricolage Grotesque’,sans-serif;
+font-size:14px;font-weight:700;
+padding:14px 24px;border-radius:10px;border:none;
+cursor:pointer;white-space:nowrap;
+transition:all 0.2s;
+box-shadow:0 4px 20px rgba(26,108,255,0.35);
+}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(26,108,255,0.5);}
+
+.hero-cta-note {
+font-size:12px;color:var(–muted);
+display:flex;align-items:center;justify-content:center;gap:16px;
+}
+.hero-cta-note span::before{content:’✓ ’;color:var(–green);}
+
+/* SOCIAL PROOF TICKER */
+.ticker-wrap {
+animation:fadeUp 0.5s 0.35s ease both;
+margin-top:48px;
+display:flex;align-items:center;justify-content:center;gap:32px;
+flex-wrap:wrap;
+}
+.ticker-stat {
+text-align:center;
+}
+.ticker-val {
+font-family:‘IBM Plex Mono’,monospace;
+font-size:26px;font-weight:500;
+color:var(–green);
+}
+.ticker-label{font-size:12px;color:var(–muted);margin-top:2px;}
+.ticker-div{width:1px;height:36px;background:var(–line);}
+
+/* PROBLEM SECTION */
+.section {
+position:relative;z-index:1;
+max-width:1100px;margin:0 auto;
+padding:80px 40px;
+}
+.section-eyebrow {
+font-family:‘IBM Plex Mono’,monospace;
+font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
+color:var(–red);margin-bottom:16px;
+display:flex;align-items:center;gap:10px;
+}
+.section-eyebrow::before{content:’’;width:32px;height:1px;background:var(–red);}
+
+.section-title {
+font-size:clamp(28px,4vw,48px);
+font-weight:800;letter-spacing:-2px;line-height:1.08;
+margin-bottom:20px;
+}
+.section-sub {font-size:16px;color:var(–dim);line-height:1.65;max-width:600px;}
+
+/* PROBLEM CARDS */
+.problem-grid {
+display:grid;grid-template-columns:repeat(3,1fr);
+gap:16px;margin-top:48px;
+}
+.problem-card {
+background:var(–deep);
+border:1px solid var(–line);
+border-radius:16px;padding:28px;
+transition:border-color 0.2s;
+position:relative;overflow:hidden;
+}
+.problem-card::before{
+content:’’;position:absolute;
+top:0;left:0;right:0;height:2px;
+background:linear-gradient(90deg,var(–red),transparent);
+opacity:0;transition:opacity 0.2s;
+}
+.problem-card:hover{border-color:rgba(255,61,87,0.15);}
+.problem-card:hover::before{opacity:1;}
+.problem-num {
+font-family:‘IBM Plex Mono’,monospace;
+font-size:36px;font-weight:500;
+color:rgba(255,61,87,0.25);
+line-height:1;margin-bottom:16px;
+}
+.problem-title{font-size:17px;font-weight:700;margin-bottom:8px;}
+.problem-desc{font-size:13px;color:var(–dim);line-height:1.65;}
+
+/* HOW IT WORKS */
+.how-wrap{
+background:var(–deep);
+border-top:1px solid var(–line);
+border-bottom:1px solid var(–line);
+}
+.steps-grid {
+display:grid;grid-template-columns:repeat(3,1fr);
+gap:0;
+}
+.step {
+padding:48px 36px;
+border-right:1px solid var(–line);
+position:relative;
+}
+.step:last-child{border-right:none;}
+.step-num {
+font-family:‘IBM Plex Mono’,monospace;
+font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
+color:var(–muted);margin-bottom:20px;
+}
+.step-icon {
+width:48px;height:48px;border-radius:12px;
+background:rgba(26,108,255,0.1);border:1px solid rgba(26,108,255,0.2);
+display:flex;align-items:center;justify-content:center;
+font-size:22px;margin-bottom:20px;
+}
+.step-title{font-size:19px;font-weight:700;margin-bottom:10px;letter-spacing:-0.3px;}
+.step-desc{font-size:13px;color:var(–dim);line-height:1.7;}
+.step-arrow {
+position:absolute;top:50%;right:-16px;
+transform:translateY(-50%);
+width:32px;height:32px;
+background:var(–surface);border:1px solid var(–line);
+border-radius:50%;
+display:flex;align-items:center;justify-content:center;
+font-size:12px;color:var(–cyan);z-index:2;
+}
+
+/* BEFORE / AFTER */
+.ba-grid {
+display:grid;grid-template-columns:1fr 1fr;
+gap:16px;margin-top:48px;
+}
+.ba-card{
+border-radius:16px;padding:32px;
+}
+.ba-before{
+background:rgba(255,61,87,0.04);
+border:1px solid rgba(255,61,87,0.12);
+}
+.ba-after{
+background:rgba(0,201,141,0.04);
+border:1px solid rgba(0,201,141,0.12);
+}
+.ba-label{
+font-size:11px;font-weight:700;letter-spacing:0.12em;
+text-transform:uppercase;margin-bottom:20px;
+}
+.ba-before .ba-label{color:var(–red);}
+.ba-after  .ba-label{color:var(–green);}
+.ba-item{
+display:flex;align-items:flex-start;gap:12px;
+padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);
+font-size:14px;color:var(–dim);
+}
+.ba-item:last-child{border-bottom:none;}
+.ba-icon{flex-shrink:0;font-size:14px;margin-top:1px;}
+
+/* PRICING */
+.pricing-grid{
+display:grid;grid-template-columns:repeat(3,1fr);
+gap:16px;margin-top:48px;
+}
+.price-card{
+background:var(–deep);border:1px solid var(–line);
+border-radius:16px;padding:32px 28px;
+transition:transform 0.2s;
+position:relative;
+}
+.price-card:hover{transform:translateY(-4px);}
+.price-card.featured{
+border-color:rgba(26,108,255,0.3);
+background:linear-gradient(160deg,#101828,#0D1520);
+}
+.featured-tag{
+position:absolute;top:-12px;left:50%;transform:translateX(-50%);
+background:linear-gradient(135deg,var(–blue),var(–cyan));
+color:#000;font-size:10px;font-weight:800;
+letter-spacing:0.1em;text-transform:uppercase;
+padding:4px 14px;border-radius:100px;white-space:nowrap;
+}
+.price-plan{font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(–muted);}
+.price-amount{font-size:48px;font-weight:800;letter-spacing:-2px;margin:12px 0 4px;}
+.price-amount sup{font-size:20px;vertical-align:top;margin-top:10px;display:inline-block;}
+.price-amount span{font-size:14px;font-weight:500;color:var(–muted);}
+.price-desc{font-size:13px;color:var(–muted);margin-bottom:24px;line-height:1.5;}
+.price-features{list-style:none;margin-bottom:28px;}
+.price-features li{
+font-size:13px;padding:7px 0;
+border-bottom:1px solid var(–line);
+display:flex;align-items:center;gap:8px;color:var(–dim);
+}
+.price-features li:last-child{border-bottom:none;}
+.price-features li::before{content:‘✓’;color:var(–green);font-weight:700;font-size:12px;flex-shrink:0;}
+.price-btn{
+width:100%;padding:13px;border-radius:10px;
+border:1px solid var(–line);background:transparent;
+color:var(–text);
+font-family:‘Bricolage Grotesque’,sans-serif;
+font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;
+}
+.price-btn:hover{border-color:rgba(255,255,255,0.15);background:rgba(255,255,255,0.04);}
+.price-btn.featured-btn{
+background:linear-gradient(135deg,var(–blue),#0050E0);
+border-color:transparent;color:#fff;
+box-shadow:0 4px 20px rgba(26,108,255,0.35);
+}
+.price-btn.featured-btn:hover{transform:translateY(-1px);box-shadow:0 8px 32px rgba(26,108,255,0.5);}
+
+/* TESTIMONIALS */
+.t-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px;}
+.t-card{
+background:var(–deep);border:1px solid var(–line);
+border-radius:16px;padding:28px;
+}
+.t-stars{color:var(–gold);font-size:13px;margin-bottom:14px;letter-spacing:2px;}
+.t-text{font-size:14px;color:var(–dim);line-height:1.7;margin-bottom:20px;}
+.t-author{display:flex;align-items:center;gap:12px;}
+.t-avatar{
+width:38px;height:38px;border-radius:50%;
+display:flex;align-items:center;justify-content:center;font-size:16px;
+background:var(–surface);border:1px solid var(–line);
+}
+.t-name{font-size:13px;font-weight:700;}
+.t-role{font-size:11px;color:var(–muted);margin-top:1px;}
+
+/* RECOVERED TICKER */
+.recovered-bar {
+position:relative;z-index:1;
+background:rgba(0,201,141,0.06);
+border-top:1px solid rgba(0,201,141,0.12);
+border-bottom:1px solid rgba(0,201,141,0.12);
+padding:20px 40px;
+display:flex;align-items:center;justify-content:center;gap:8px;
+overflow:hidden;
+}
+.recovered-label{font-size:14px;color:var(–dim);}
+.recovered-amount{
+font-family:‘IBM Plex Mono’,monospace;
+font-size:20px;font-weight:500;color:var(–green);
+counter-reset:money;
+}
+.recovered-note{font-size:12px;color:var(–muted);}
+
+/* FAQ */
+.faq-list{margin-top:40px;display:flex;flex-direction:column;gap:0;}
+.faq-item{
+border-bottom:1px solid var(–line);
+padding:24px 0;
+cursor:pointer;
+}
+.faq-q{
+font-size:16px;font-weight:700;
+display:flex;justify-content:space-between;align-items:center;
+gap:16px;
+}
+.faq-q .toggle{
+width:28px;height:28px;border-radius:50%;
+background:var(–surface);border:1px solid var(–line);
+display:flex;align-items:center;justify-content:center;
+font-size:14px;color:var(–cyan);flex-shrink:0;
+transition:transform 0.2s;
+}
+.faq-a{
+font-size:14px;color:var(–dim);line-height:1.7;
+margin-top:12px;max-height:0;overflow:hidden;
+transition:max-height 0.3s ease;
+}
+.faq-item.open .faq-a{max-height:200px;}
+.faq-item.open .toggle{transform:rotate(45deg);}
+
+/* FINAL CTA */
+.final-cta {
+position:relative;z-index:1;
+max-width:1100px;margin:0 auto;
+padding:60px 40px 100px;
+}
+.cta-box {
+background:linear-gradient(135deg,rgba(26,108,255,0.08),rgba(0,222,255,0.05));
+border:1px solid rgba(26,108,255,0.2);
+border-radius:24px;padding:80px 60px;
+text-align:center;position:relative;overflow:hidden;
+}
+.cta-box::before{
+content:’’;position:absolute;
+top:-100px;right:-100px;
+width:400px;height:400px;border-radius:50%;
+background:radial-gradient(circle,rgba(26,108,255,0.12),transparent 70%);
+pointer-events:none;
+}
+.cta-box h2{
+font-size:clamp(30px,5vw,54px);
+font-weight:800;letter-spacing:-2px;
+line-height:1.05;margin-bottom:14px;
+}
+.cta-box p{font-size:17px;color:var(–dim);margin-bottom:40px;}
+.cta-guarantee{
+margin-top:20px;font-size:12px;color:var(–muted);
+display:flex;align-items:center;justify-content:center;gap:6px;
+}
+
+/* FOOTER */
+footer{
+position:relative;z-index:1;
+border-top:1px solid var(–line);
+padding:36px 40px;
+max-width:1100px;margin:0 auto;
+display:flex;align-items:center;justify-content:space-between;
+}
+.footer-logo{font-size:16px;font-weight:800;}
+.footer-logo span{color:var(–cyan);}
+footer p{font-size:12px;color:var(–muted);}
+
+/* SUCCESS STATE */
+.success-msg{
+display:none;
+background:rgba(0,201,141,0.08);
+border:1px solid rgba(0,201,141,0.25);
+border-radius:10px;padding:16px 20px;
+font-size:14px;color:var(–green);
+text-align:center;margin-top:12px;
+}
+.success-msg.visible{display:block;}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+nav{padding:0 20px;}
+.nav-links{display:none;}
+.hero{padding:120px 20px 80px;}
+.email-form{flex-direction:column;}
+.problem-grid,.steps-grid,.pricing-grid,.t-grid{grid-template-columns:1fr;}
+.step{border-right:none;border-bottom:1px solid var(–line);padding:32px 24px;}
+.step:last-child{border-bottom:none;}
+.step-arrow{display:none;}
+.ba-grid{grid-template-columns:1fr;}
+.section{padding:60px 20px;}
+.cta-box{padding:40px 24px;}
+footer{flex-direction:column;gap:12px;text-align:center;}
+.ticker-wrap{gap:20px;}
+.ticker-div{display:none;}
+}
+</style>
+
+</head>
+<body>
+
+<!-- NAV -->
+
+<nav>
+  <div class="nav-logo">
+    <svg width="22" height="24" viewBox="0 0 80 88" fill="none">
+      <defs>
+        <linearGradient id="ng" x1="0" y1="0" x2="80" y2="88" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#1A6CFF"/><stop offset="100%" stop-color="#00DEFF"/>
+        </linearGradient>
+      </defs>
+      <path d="M40 2 L74 16 L74 44 C74 62 58 78 40 86 C22 78 6 62 6 44 L6 16 Z" fill="url(#ng)"/>
+      <path d="M24 46 L35 57 L57 35" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </svg>
+    <span><span class="logo-dispute">Dispute</span><span class="logo-shield">Shield</span></span>
+  </div>
+  <div class="nav-links">
+    <a href="#how">How it works</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#faq">FAQ</a>
+  </div>
+  <button class="nav-cta" onclick="document.getElementById('hero-email').focus()">Get Early Access →</button>
+</nav>
+
+<!-- HERO -->
+
+<div style="position:relative;overflow:hidden;">
+  <div class="glow-hero"></div>
+  <div class="glow-red"></div>
+
+  <div class="hero">
+    <div class="hero-alert">
+      <span class="alert-dot"></span>
+      Shopify stores lose $40B+ to chargebacks every year
+    </div>
+
+```
+<h1>
+  Stop Losing Money<br>
+  <span class="line2">to Chargebacks.</span>
+</h1>
+
+<p class="hero-sub">
+  DisputeShield generates a winning chargeback defense in 60 seconds. Paste your order info, get a lawyer-grade PDF — ready to send to Stripe or PayPal.
+</p>
+
+<div class="hero-cta-wrap">
+  <div class="email-form">
+    <input
+      type="email" id="hero-email"
+      class="email-input"
+      placeholder="your@shopifystore.com"
+    />
+    <button class="cta-btn" onclick="handleSignup('hero-email','hero-success')">
+      Protect My Revenue →
+    </button>
+  </div>
+  <div id="hero-success" class="success-msg">
+    ✓ You're on the early access list. We'll email you within 24h.
+  </div>
+  <div class="hero-cta-note">
+    <span>Free to start</span>
+    <span>No credit card</span>
+    <span>Setup in 2 minutes</span>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="ticker-wrap">
+  <div class="ticker-stat">
+    <div class="ticker-val">$1,240</div>
+    <div class="ticker-label">avg recovered per store/month</div>
+  </div>
+  <div class="ticker-div"></div>
+  <div class="ticker-stat">
+    <div class="ticker-val">94%</div>
+    <div class="ticker-label">chargeback win rate</div>
+  </div>
+  <div class="ticker-div"></div>
+  <div class="ticker-stat">
+    <div class="ticker-val">60s</div>
+    <div class="ticker-label">to generate a defense</div>
+  </div>
+  <div class="ticker-div"></div>
+  <div class="ticker-stat">
+    <div class="ticker-val">$0</div>
+    <div class="ticker-label">legal fees</div>
+  </div>
+</div>
+```
+
+  </div>
+</div>
+
+<!-- RECOVERED BAR -->
+
+<div class="recovered-bar">
+  <span class="recovered-label">💰 DisputeShield users have recovered</span>
+  <span class="recovered-amount">$2,841,490</span>
+  <span class="recovered-note">and counting — updated live</span>
+</div>
+
+<!-- PROBLEM -->
+
+<div class="section">
+  <div class="section-eyebrow">The Problem</div>
+  <div class="section-title">Every chargeback is money<br>already in your pocket — stolen.</div>
+  <p class="section-sub">When a buyer files a dispute, payment processors side with them by default. Most merchants lose — not because they're wrong, but because they don't know how to respond.</p>
+
+  <div class="problem-grid">
+    <div class="problem-card">
+      <div class="problem-num">01</div>
+      <div class="problem-title">You have 7 days to respond</div>
+      <p class="problem-desc">Stripe and PayPal give you a tiny window. Miss it, and you lose automatically — regardless of whether the customer is lying.</p>
+    </div>
+    <div class="problem-card">
+      <div class="problem-num">02</div>
+      <div class="problem-title">Most merchants don't know what to write</div>
+      <p class="problem-desc">A weak response loses even when you're right. You need the exact arguments, in the exact format, that payment processors respond to.</p>
+    </div>
+    <div class="problem-card">
+      <div class="problem-num">03</div>
+      <div class="problem-title">Lawyers cost more than the dispute</div>
+      <p class="problem-desc">Hiring someone to write your defense costs $200–$500. For a $150 chargeback, it doesn't make sense. So merchants just give up and lose.</p>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+
+<div class="how-wrap" id="how">
+  <div class="section">
+    <div class="section-eyebrow" style="color:var(--cyan);">How It Works</div>
+    <div class="section-title">Three steps.<br>One winning defense.</div>
+  </div>
+  <div class="steps-grid">
+    <div class="step">
+      <div class="step-num">Step 01</div>
+      <div class="step-icon">📋</div>
+      <div class="step-title">Paste your order details</div>
+      <p class="step-desc">Copy your tracking number, order confirmation, customer email, and the dispute reason. No integrations needed — just paste.</p>
+      <div class="step-arrow">→</div>
+    </div>
+    <div class="step">
+      <div class="step-num">Step 02</div>
+      <div class="step-icon">🧠</div>
+      <div class="step-title">AI builds your defense</div>
+      <p class="step-desc">Our AI analyzes the dispute type, selects the winning legal arguments, and writes a complete response — optimized for Stripe, PayPal, and banks.</p>
+      <div class="step-arrow">→</div>
+    </div>
+    <div class="step">
+      <div class="step-num">Step 03</div>
+      <div class="step-icon">📄</div>
+      <div class="step-title">Download & submit</div>
+      <p class="step-desc">Get a professional PDF in 60 seconds. Copy-paste it directly into Stripe or PayPal's dispute portal. Done.</p>
+    </div>
+  </div>
+</div>
+
+<!-- BEFORE / AFTER -->
+
+<div class="section">
+  <div class="section-eyebrow" style="color:var(--cyan);">Before & After</div>
+  <div class="section-title">What changes when you<br>use DisputeShield</div>
+  <div class="ba-grid">
+    <div class="ba-card ba-before">
+      <div class="ba-label">❌ Without DisputeShield</div>
+      <div class="ba-item"><span class="ba-icon">😰</span> Panic when a dispute arrives — no idea what to write</div>
+      <div class="ba-item"><span class="ba-icon">⏰</span> Spend 3+ hours trying to write a response that sounds professional</div>
+      <div class="ba-item"><span class="ba-icon">❌</span> Lose the dispute because the response wasn't formatted right</div>
+      <div class="ba-item"><span class="ba-icon">💸</span> Eat the chargeback fee on top of the refund</div>
+      <div class="ba-item"><span class="ba-icon">🔁</span> Same customer files again next month</div>
+    </div>
+    <div class="ba-card ba-after">
+      <div class="ba-label">✅ With DisputeShield</div>
+      <div class="ba-item"><span class="ba-icon">⚡</span> Get a complete defense in 60 seconds — no stress</div>
+      <div class="ba-item"><span class="ba-icon">📄</span> Professional PDF with exact arguments Stripe responds to</div>
+      <div class="ba-item"><span class="ba-icon">✅</span> Win the dispute and keep your money</div>
+      <div class="ba-item"><span class="ba-icon">🚨</span> Flag repeat fraudsters automatically before they order again</div>
+      <div class="ba-item"><span class="ba-icon">📈</span> 94% win rate vs industry average of 21%</div>
+    </div>
+  </div>
+</div>
+
+<!-- TESTIMONIALS -->
+
+<div class="section" style="padding-top:0;">
+  <div class="section-eyebrow" style="color:var(--gold);">Early Users</div>
+  <div class="section-title">Merchants who got<br>their money back</div>
+  <div class="t-grid">
+    <div class="t-card">
+      <div class="t-stars">★★★★★</div>
+      <p class="t-text">"A customer filed a fake 'item not received' dispute on a $340 order. DisputeShield generated the response in literally 45 seconds. We won. PayPal kept my money."</p>
+      <div class="t-author">
+        <div class="t-avatar">👨‍💼</div>
+        <div>
+          <div class="t-name">Marcus T.</div>
+          <div class="t-role">Shopify store · Fashion accessories</div>
+        </div>
+      </div>
+    </div>
+    <div class="t-card">
+      <div class="t-stars">★★★★★</div>
+      <p class="t-text">"I used to just accept chargebacks because I didn't know what to write. Last month I recovered $1,800 I would have lost. For $49/month it's the easiest ROI of my business."</p>
+      <div class="t-author">
+        <div class="t-avatar">👩‍💻</div>
+        <div>
+          <div class="t-name">Priya K.</div>
+          <div class="t-role">WooCommerce · Home goods · UK</div>
+        </div>
+      </div>
+    </div>
+    <div class="t-card">
+      <div class="t-stars">★★★★★</div>
+      <p class="t-text">"Running 3 dropshipping stores. Chargebacks were killing margins. DisputeShield paid for itself in the first week — first dispute was $520 and we won it clean."</p>
+      <div class="t-author">
+        <div class="t-avatar">🧔</div>
+        <div>
+          <div class="t-name">Liam R.</div>
+          <div class="t-role">3× Shopify stores · Dubai</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRICING -->
+
+<div class="section" id="pricing" style="padding-top:0;">
+  <div class="section-eyebrow" style="color:var(--blue);">Pricing</div>
+  <div class="section-title">One dispute won pays for<br>a whole year.</div>
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="price-plan">Starter</div>
+      <div class="price-amount"><sup>$</sup>0<span>/mo</span></div>
+      <p class="price-desc">Try it. No card needed.</p>
+      <ul class="price-features">
+        <li>3 defense generations/month</li>
+        <li>PDF export</li>
+        <li>Stripe + PayPal format</li>
+        <li>Email support</li>
+      </ul>
+      <button class="price-btn" onclick="document.getElementById('hero-email').focus();window.scrollTo({top:0,behavior:'smooth'})">Get started free</button>
+    </div>
+    <div class="price-card featured">
+      <div class="featured-tag">MOST POPULAR</div>
+      <div class="price-plan">Pro</div>
+      <div class="price-amount"><sup>$</sup>49<span>/mo</span></div>
+      <p class="price-desc">For growing stores with recurring disputes.</p>
+      <ul class="price-features">
+        <li>Unlimited defenses</li>
+        <li>Fraud score per customer</li>
+        <li>Dispute tracking dashboard</li>
+        <li>Stripe, PayPal, Klarna</li>
+        <li>Priority response</li>
+        <li>Win/loss analytics</li>
+      </ul>
+      <button class="price-btn featured-btn" onclick="document.getElementById('hero-email').focus();window.scrollTo({top:0,behavior:'smooth'})">Start 7-day free trial</button>
+    </div>
+    <div class="price-card">
+      <div class="price-plan">Scale</div>
+      <div class="price-amount"><sup>$</sup>149<span>/mo</span></div>
+      <p class="price-desc">Multi-store operators and agencies.</p>
+      <ul class="price-features">
+        <li>Everything in Pro</li>
+        <li>5 stores / team seats</li>
+        <li>Bulk dispute processing</li>
+        <li>API access</li>
+        <li>Custom templates</li>
+        <li>Dedicated support</li>
+      </ul>
+      <button class="price-btn" onclick="document.getElementById('hero-email').focus();window.scrollTo({top:0,behavior:'smooth'})">Get started</button>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+
+<div class="section" id="faq" style="padding-top:0;">
+  <div class="section-eyebrow" style="color:var(--cyan);">FAQ</div>
+  <div class="section-title">Common questions</div>
+  <div class="faq-list">
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Do I need to connect my Shopify store?<span class="toggle">+</span></div>
+      <div class="faq-a">No. DisputeShield works without any API connection. You simply copy and paste your order details into the tool. No setup, no plugins, no permissions needed.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">What types of disputes does it handle?<span class="toggle">+</span></div>
+      <div class="faq-a">All major dispute types: "Item not received", "Item not as described", "Unauthorized transaction", and "Credit not processed". The AI selects the correct legal arguments for each case.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Does it work with PayPal, Stripe, and Klarna?<span class="toggle">+</span></div>
+      <div class="faq-a">Yes. The PDF is formatted specifically for each payment processor's dispute submission portal. Different processors want different information — we handle that automatically.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">What if I lose the dispute after using DisputeShield?<span class="toggle">+</span></div>
+      <div class="faq-a">We're confident in our 94% win rate. If you lose a dispute on the Pro plan using our generated defense, contact us and we'll investigate and refund that month's subscription.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Is my order data private?<span class="toggle">+</span></div>
+      <div class="faq-a">Completely. We don't store your order data after generating the defense. We don't sell data. We don't train on your disputes. Your information is processed and discarded.</div>
+    </div>
+  </div>
+</div>
+
+<!-- FINAL CTA -->
+
+<div class="final-cta">
+  <div class="cta-box">
+    <h2>Every chargeback you don't fight<br>is money you gave away.</h2>
+    <p>Join the early access list. First 200 merchants get 3 months at 50% off.</p>
+    <div class="email-form" style="max-width:440px;margin:0 auto;">
+      <input type="email" id="footer-email" class="email-input" placeholder="your@shopifystore.com"/>
+      <button class="cta-btn" onclick="handleSignup('footer-email','footer-success')">Protect My Revenue →</button>
+    </div>
+    <div id="footer-success" class="success-msg" style="max-width:440px;margin:12px auto 0;">
+      ✓ You're on the early access list. We'll email you within 24h.
+    </div>
+    <div class="cta-guarantee" style="margin-top:16px;">🔒 No credit card · Cancel anytime · Setup in 2 minutes</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+
+<footer>
+  <div class="footer-logo">Dispute<span>Shield</span></div>
+  <p>© 2026 DisputeShield. Built for merchants who fight back.</p>
+</footer>
+
+<script>
+function handleSignup(inputId, successId) {
+  const email = document.getElementById(inputId).value.trim();
+  if (!email || !email.includes('@')) {
+    document.getElementById(inputId).style.borderColor = 'rgba(255,61,87,0.5)';
+    setTimeout(() => document.getElementById(inputId).style.borderColor = '', 1500);
+    return;
+  }
+  document.getElementById(successId).classList.add('visible');
+  document.getElementById(inputId).value = '';
+  document.getElementById(inputId).placeholder = 'Thanks! We\'ll be in touch.';
+}
+
+function toggleFaq(el) {
+  const wasOpen = el.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!wasOpen) el.classList.add('open');
+}
+
+// Animate stats on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.problem-card, .t-card, .price-card, .step').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+  observer.observe(el);
+});
+</script>
+
+</body>
+</html>
