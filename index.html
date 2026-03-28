@@ -524,7 +524,7 @@ footer{flex-direction:column;gap:12px;text-align:center;}
 <a href="#pricing">Pricing</a>
 <a href="#faq">FAQ</a>
 </div>
-<button class="nav-cta" onclick="document.getElementById('hero-email').focus()">Get Early Access →</button>
+<button class="nav-cta" onclick="window.location.href='https://diengnoham-lab.github.io/Index.html/app.html'">Get Early Access →</button>
 </nav>
 
 <!-- HERO -->
@@ -556,7 +556,7 @@ type="email" id="hero-email"
 class="email-input"
 placeholder="your@shopifystore.com"
 />
-<button class="cta-btn" onclick="handleSignup('hero-email','hero-success')">
+<button class="cta-btn" onclick="handleSignupAndRedirect('hero-email','hero-success')">
 Protect My Revenue →
 </button>
 </div>
@@ -745,7 +745,7 @@ Protect My Revenue →
 <li>Stripe + PayPal format</li>
 <li>Email support</li>
 </ul>
-<button class="price-btn" onclick="window.location.href=https://diengnoham-lab.github.io/Index.html/app.html'";window.scrollTo({top:0,behavior:'smooth'})">Get started free</button>
+<button class="price-btn" onclick="window.location.href='https://diengnoham-lab.github.io/Index.html/app.html'">Get started free</button>
 </div>
 <div class="price-card featured">
 <div class="featured-tag">MOST POPULAR</div>
@@ -760,7 +760,7 @@ Protect My Revenue →
 <li>Priority response</li>
 <li>Win/loss analytics</li>
 </ul>
-<button class="price-btn featured-btn" onclick="window.location.href=https://diengnoham-lab.github.io/Index.html/app.html'";window.scrollTo({top:0,behavior:'smooth'})">Start 7-day free trial</button>
+<button class="price-btn featured-btn" onclick="window.location.href='https://diengnoham-lab.github.io/Index.html/app.html'">Start 7-day free trial</button>
 </div>
 <div class="price-card">
 <div class="price-plan">Scale</div>
@@ -774,7 +774,7 @@ Protect My Revenue →
 <li>Custom templates</li>
 <li>Dedicated support</li>
 </ul>
-<button class="price-btn" onclick="window.location.href=https://diengnoham-lab.github.io/Index.html/app.html'";window.scrollTo({top:0,behavior:'smooth'})">Get started</button>
+<button class="price-btn" onclick="window.location.href='https://diengnoham-lab.github.io/Index.html/app.html'">Get started</button>
 </div>
 </div>
 </div>
@@ -816,7 +816,7 @@ Protect My Revenue →
 <p>Join the early access list. First 200 merchants get 3 months at 50% off.</p>
 <div class="email-form" style="max-width:440px;margin:0 auto;">
 <input type="email" id="footer-email" class="email-input" placeholder="your@shopifystore.com"/>
-<button class="cta-btn" onclick="handleSignup('footer-email','footer-success')">Protect My Revenue →</button>
+<button class="cta-btn" onclick="handleSignupAndRedirect('footer-email','footer-success')">Protect My Revenue →</button>
 </div>
 <div id="footer-success" class="success-msg" style="max-width:440px;margin:12px auto 0;">
 ✓ You're on the early access list. We'll email you within 24h.
@@ -833,6 +833,17 @@ Protect My Revenue →
 </footer>
 
 <script>
+const APP_URL = 'https://diengnoham-lab.github.io/Index.html/app.html';
+async function handleSignupAndRedirect(inputId, successId) {
+const email = document.getElementById(inputId).value.trim();
+if (!email || !email.includes('@')) {
+document.getElementById(inputId).style.borderColor = 'rgba(255,61,87,0.5)';
+setTimeout(() => document.getElementById(inputId).style.borderColor = '', 1500);
+return;
+}
+try { await fetch('https://formspree.io/f/xreobowg', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ email }) }); } catch(e) {}
+window.location.href = APP_URL;
+}
 async function handleSignup(inputId, successId) {
 const email = document.getElementById(inputId).value.trim();
 if (!email || !email.includes('@')) {
