@@ -1,6 +1,11 @@
 {
-"rewrites": [
-{ "source": "/app", "destination": "/app.html" },
-{ "source": "/", "destination": "/index.html" }
+"version": 2,
+"builds": [
+{ "src": "*.html", "use": "@vercel/static" }
+],
+"routes": [
+{ "src": "/", "dest": "/index.html" },
+{ "src": "/app", "dest": "/app.html" },
+{ "src": "/api/generate", "dest": "/api/generate.js" }
 ]
 }
