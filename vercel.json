@@ -1,11 +1,7 @@
 {
-"version": 2,
-"builds": [
-{ "src": "*.html", "use": "@vercel/static" }
-],
-"routes": [
-{ "src": "/", "dest": "/index.html" },
-{ "src": "/app", "dest": "/app.html" },
-{ "src": "/api/generate", "dest": "/api/generate.js" }
-]
+  "cleanUrls": true,
+  "routes": [
+    { "src": "/app", "dest": "/app.html" },
+    { "src": "/api/generate", "dest": "/api/generate.js" }
+  ]
 }
