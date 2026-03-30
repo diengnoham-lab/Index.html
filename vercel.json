@@ -1,8 +1,6 @@
 {
-"functions": {
-"api/generate.js": {
-"memory": 512,
-"maxDuration": 30
-}
-}
+"rewrites": [
+{ "source": "/app", "destination": "/app.html" },
+{ "source": "/", "destination": "/index.html" }
+]
 }
