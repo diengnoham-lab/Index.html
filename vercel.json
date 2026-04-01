@@ -2,6 +2,7 @@
   "cleanUrls": true,
   "routes": [
     { "src": "/app", "dest": "/app.html" },
+    { "src": "/dashboard", "dest": "/dashboard.html" },
     { "src": "/api/generate", "dest": "/api/generate.js" }
   ]
 }

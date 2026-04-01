@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -20,9 +19,14 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 
 /* NAV */
 nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:58px;background:rgba(8,10,16,0.95);border-bottom:1px solid var(--border);backdrop-filter:blur(20px);}
-.nav-logo{display:flex;align-items:center;gap:10px;font-size:18px;font-weight:800;letter-spacing:-0.5px;text-decoration:none;color:var(--text);}
+.nav-logo{display:flex;align-items:center;gap:10px;font-size:18px;font-weight:800;letter-spacing:-0.5px;text-decoration:none;color:var(--text);transition:opacity 0.2s;}
+.nav-logo:hover{opacity:0.85;}
 .nav-logo span{color:var(--cyan);}
-.nav-badge{display:flex;align-items:center;gap:6px;font-family:‘IBM Plex Mono’,monospace;font-size:11px;color:var(--green);background:rgba(0,201,141,0.08);border:1px solid rgba(0,201,141,0.2);padding:3px 10px;border-radius:6px;}
+.nav-links{display:flex;align-items:center;gap:6px;}
+.nav-link{font-size:13px;font-weight:600;color:var(--dim);text-decoration:none;padding:6px 14px;border-radius:8px;transition:all 0.2s;border:1px solid transparent;}
+.nav-link:hover{color:var(--text);background:rgba(255,255,255,0.04);}
+.nav-link.active{color:var(--cyan);background:rgba(26,108,255,0.1);border-color:rgba(26,108,255,0.2);}
+.nav-badge{display:flex;align-items:center;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--green);background:rgba(0,201,141,0.08);border:1px solid rgba(0,201,141,0.2);padding:3px 10px;border-radius:6px;}
 .badge-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 2s infinite;}
 
 /* WRAP */
@@ -35,42 +39,65 @@ nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-co
 
 /* STATS */
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px;animation:fadeUp 0.4s 0.1s ease both;}
-.stat{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;}
-.stat-val{font-family:‘IBM Plex Mono’,monospace;font-size:20px;font-weight:500;color:var(--green);}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;transition:border-color 0.3s,transform 0.2s;}
+.stat:hover{border-color:var(--borderBlue);transform:translateY(-2px);}
+.stat-val{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:500;color:var(--green);}
 .stat-label{font-size:11px;color:var(--muted);margin-top:2px;}
 
+/* STEP PROGRESS */
+.step-progress{display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:28px;animation:fadeUp 0.4s 0.15s ease both;}
+.step-item{display:flex;align-items:center;gap:0;}
+.step-circle{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;border:2px solid var(--border);color:var(--muted);background:var(--surface);transition:all 0.3s;cursor:default;}
+.step-circle.active{border-color:var(--blue);color:var(--cyan);background:rgba(26,108,255,0.1);box-shadow:0 0 16px rgba(26,108,255,0.2);}
+.step-circle.completed{border-color:var(--green);color:var(--green);background:rgba(0,201,141,0.1);}
+.step-label{font-size:10px;color:var(--muted);margin-left:6px;font-weight:600;letter-spacing:0.02em;transition:color 0.3s;white-space:nowrap;}
+.step-label.active{color:var(--cyan);}
+.step-label.completed{color:var(--green);}
+.step-connector{width:40px;height:2px;background:var(--border);margin:0 8px;transition:background 0.3s;}
+.step-connector.completed{background:var(--green);}
+
 /* CARD */
-.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 24px;margin-bottom:14px;animation:fadeUp 0.4s ease both;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 24px;margin-bottom:14px;animation:fadeUp 0.4s ease both;transition:border-color 0.3s;}
+.card:hover{border-color:rgba(255,255,255,0.1);}
 .card-title{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:18px;}
 
 /* FIELDS */
 .field{margin-bottom:18px;}
 .field label{display:block;font-size:13px;font-weight:700;color:var(--text);margin-bottom:7px;}
-.field-hint{font-size:11px;color:var(--muted);font-family:‘IBM Plex Mono’,monospace;float:right;}
-input,textarea,select{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:11px 14px;font-family:‘Bricolage Grotesque’,sans-serif;font-size:13px;color:var(--text);outline:none;transition:border-color 0.2s;color-scheme:dark;}
-input:focus,textarea:focus,select:focus{border-color:var(--borderBlue);}
+.field-hint{font-size:11px;color:var(--muted);font-family:'IBM Plex Mono',monospace;float:right;}
+input,textarea,select{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:11px 14px;font-family:'Bricolage Grotesque',sans-serif;font-size:13px;color:var(--text);outline:none;transition:border-color 0.2s,box-shadow 0.2s;color-scheme:dark;}
+input:focus,textarea:focus,select:focus{border-color:var(--borderBlue);box-shadow:0 0 0 3px rgba(26,108,255,0.08);}
 textarea{resize:vertical;min-height:80px;}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 
 /* CHIP BUTTONS */
 .chips{display:flex;gap:8px;flex-wrap:wrap;}
-.chip-btn{font-size:12px;font-weight:600;padding:7px 14px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--dim);cursor:pointer;transition:all 0.15s;font-family:‘Bricolage Grotesque’,sans-serif;}
-.chip-btn.active{border-color:var(--blue);background:rgba(26,108,255,0.12);color:var(--cyan);}
+.chip-btn{font-size:12px;font-weight:600;padding:7px 14px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--dim);cursor:pointer;transition:all 0.2s;font-family:'Bricolage Grotesque',sans-serif;}
+.chip-btn:hover{border-color:rgba(255,255,255,0.15);color:var(--text);}
+.chip-btn.active{border-color:var(--blue);background:rgba(26,108,255,0.12);color:var(--cyan);box-shadow:0 0 12px rgba(26,108,255,0.1);}
 .type-chips{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.type-chip{font-size:12px;font-weight:600;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--dim);cursor:pointer;transition:all 0.15s;text-align:left;display:flex;align-items:center;gap:8px;font-family:‘Bricolage Grotesque’,sans-serif;}
-.type-chip.active{border-color:var(--blue);background:rgba(26,108,255,0.1);color:var(--cyan);}
+.type-chip{font-size:12px;font-weight:600;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--dim);cursor:pointer;transition:all 0.2s;text-align:left;display:flex;align-items:center;gap:8px;font-family:'Bricolage Grotesque',sans-serif;}
+.type-chip:hover{border-color:rgba(255,255,255,0.15);color:var(--text);}
+.type-chip.active{border-color:var(--blue);background:rgba(26,108,255,0.1);color:var(--cyan);box-shadow:0 0 12px rgba(26,108,255,0.1);}
+
+/* TEMPLATE HINT */
+.template-hint{font-size:11px;color:var(--cyan);font-family:'IBM Plex Mono',monospace;margin-top:6px;opacity:0;transition:opacity 0.3s;display:flex;align-items:center;gap:4px;}
+.template-hint.show{opacity:1;}
 
 /* BTN */
-.btn-primary{width:100%;background:linear-gradient(135deg,var(--blue),#0050E0);color:#fff;font-family:‘Bricolage Grotesque’,sans-serif;font-size:15px;font-weight:700;padding:14px 28px;border-radius:12px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 4px 20px rgba(26,108,255,0.35);transition:all 0.2s;}
-.btn-primary:hover{transform:translateY(-1px);box-shadow:0 8px 32px rgba(26,108,255,0.45);}
+.btn-primary{width:100%;background:linear-gradient(135deg,var(--blue),#0050E0);color:#fff;font-family:'Bricolage Grotesque',sans-serif;font-size:15px;font-weight:700;padding:14px 28px;border-radius:12px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 4px 20px rgba(26,108,255,0.35);transition:all 0.25s;}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(26,108,255,0.45);}
+.btn-primary:active{transform:translateY(0);box-shadow:0 2px 12px rgba(26,108,255,0.3);}
 .btn-primary:disabled{opacity:0.4;cursor:not-allowed;transform:none;box-shadow:none;}
-.btn-ghost{width:100%;background:transparent;color:var(--dim);font-family:‘Bricolage Grotesque’,sans-serif;font-size:14px;font-weight:600;padding:14px;border-radius:12px;border:1px solid var(--border);cursor:pointer;transition:all 0.2s;}
+.btn-ghost{width:100%;background:transparent;color:var(--dim);font-family:'Bricolage Grotesque',sans-serif;font-size:14px;font-weight:600;padding:14px;border-radius:12px;border:1px solid var(--border);cursor:pointer;transition:all 0.2s;}
 .btn-ghost:hover{border-color:rgba(255,255,255,0.15);color:var(--text);}
-.btn-copy{font-size:12px;font-weight:600;padding:6px 14px;border-radius:7px;border:1px solid var(--border);background:transparent;color:var(--dim);cursor:pointer;font-family:‘Bricolage Grotesque’,sans-serif;transition:all 0.15s;}
-.btn-copy:hover{color:var(--text);}
+.btn-dashboard{width:100%;background:rgba(0,201,141,0.08);color:var(--green);font-family:'Bricolage Grotesque',sans-serif;font-size:14px;font-weight:600;padding:14px;border-radius:12px;border:1px solid rgba(0,201,141,0.2);cursor:pointer;transition:all 0.2s;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;}
+.btn-dashboard:hover{background:rgba(0,201,141,0.14);border-color:rgba(0,201,141,0.35);transform:translateY(-1px);}
+.btn-copy{font-size:12px;font-weight:600;padding:6px 14px;border-radius:7px;border:1px solid var(--border);background:transparent;color:var(--dim);cursor:pointer;font-family:'Bricolage Grotesque',sans-serif;transition:all 0.15s;}
+.btn-copy:hover{color:var(--text);border-color:rgba(255,255,255,0.15);}
 
 /* ERROR */
-.error-box{background:rgba(255,61,87,0.08);border:1px solid rgba(255,61,87,0.2);border-radius:10px;padding:12px 16px;font-size:13px;color:var(--red);margin-bottom:16px;display:none;}
+.error-box{background:rgba(255,61,87,0.08);border:1px solid rgba(255,61,87,0.2);border-radius:10px;padding:12px 16px;font-size:13px;color:var(--red);margin-bottom:16px;display:none;animation:shake 0.4s ease;}
 .error-box.show{display:block;}
 
 /* LOADING */
@@ -78,49 +105,61 @@ textarea{resize:vertical;min-height:80px;}
 .loading.show{display:block;}
 .spinner{width:44px;height:44px;border:3px solid rgba(26,108,255,0.15);border-top:3px solid var(--blue);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 20px;}
 .loading-title{font-size:15px;font-weight:600;margin-bottom:8px;}
-.loading-sub{font-size:13px;color:var(--dim);font-family:‘IBM Plex Mono’,monospace;}
+.loading-sub{font-size:13px;color:var(--dim);font-family:'IBM Plex Mono',monospace;}
+.loading-bar{width:200px;height:3px;background:var(--border);border-radius:2px;margin:16px auto 0;overflow:hidden;}
+.loading-bar-fill{width:0%;height:100%;background:linear-gradient(90deg,var(--blue),var(--cyan));border-radius:2px;transition:width 0.5s ease;}
 
 /* RESULT */
 .result{display:none;animation:fadeUp 0.4s ease both;}
 .result.show{display:block;}
 
-.win-banner{background:linear-gradient(135deg,rgba(0,201,141,0.08),rgba(26,108,255,0.06));border:1px solid rgba(0,201,141,0.2);border-radius:14px;padding:20px 24px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.win-banner{background:linear-gradient(135deg,rgba(0,201,141,0.08),rgba(26,108,255,0.06));border:1px solid rgba(0,201,141,0.2);border-radius:14px;padding:20px 24px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:16px;animation:glowPulse 3s ease-in-out infinite;}
 .win-label{font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--green);margin-bottom:4px;}
 .win-subject{font-size:15px;font-weight:700;}
 .win-score{text-align:center;background:rgba(0,201,141,0.1);border:1px solid rgba(0,201,141,0.2);border-radius:12px;padding:12px 18px;min-width:80px;flex-shrink:0;}
-.win-num{font-family:‘IBM Plex Mono’,monospace;font-size:28px;font-weight:700;color:var(--green);line-height:1;}
+.win-num{font-family:'IBM Plex Mono',monospace;font-size:28px;font-weight:700;color:var(--green);line-height:1;}
 .win-tag{font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--green);margin-top:2px;}
 
-.arg-item{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--dim);}
+.arg-item{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--dim);transition:color 0.2s;}
+.arg-item:hover{color:var(--text);}
 .arg-item:last-child{border-bottom:none;}
-.arg-num{font-family:‘IBM Plex Mono’,monospace;font-size:11px;color:var(--cyan);margin-top:1px;flex-shrink:0;}
+.arg-num{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--cyan);margin-top:1px;flex-shrink:0;}
 
 .letter-box{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px 20px;font-size:13px;color:var(--dim);line-height:1.85;white-space:pre-wrap;font-family:Georgia,serif;max-height:400px;overflow-y:auto;}
 
-.evidence-item{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--dim);align-items:center;}
+.evidence-item{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--dim);align-items:center;transition:color 0.2s;cursor:pointer;}
+.evidence-item:hover{color:var(--text);}
 .evidence-item:last-child{border-bottom:none;}
-.checkbox{width:18px;height:18px;border-radius:4px;border:1px solid var(--muted);flex-shrink:0;cursor:pointer;}
+.checkbox{width:18px;height:18px;border-radius:4px;border:1px solid var(--muted);flex-shrink:0;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;}
+.checkbox.checked{border-color:var(--green);background:rgba(0,201,141,0.15);}
+.checkbox.checked::after{content:'';display:block;width:10px;height:6px;border-left:2px solid var(--green);border-bottom:2px solid var(--green);transform:rotate(-45deg) translateY(-1px);}
 
 .tips-card{background:rgba(255,184,0,0.06);border:1px solid rgba(255,184,0,0.15);border-radius:14px;padding:18px 24px;margin-bottom:14px;}
 .tips-title{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
 .tip-item{font-size:13px;color:var(--dim);padding:5px 0;display:flex;gap:8px;}
 .tip-arrow{color:var(--gold);}
 
-.actions-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.actions-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
 
 /* ANIMATIONS */
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-4px)}40%,80%{transform:translateX(4px)}}
+@keyframes glowPulse{0%,100%{box-shadow:0 0 20px rgba(0,201,141,0.05)}50%{box-shadow:0 0 30px rgba(0,201,141,0.12)}}
+@keyframes countUp{from{opacity:0;transform:scale(0.5)}to{opacity:1;transform:scale(1)}}
+@keyframes slideIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:translateX(0)}}
 
 @media(max-width:600px){
 .grid-2{grid-template-columns:1fr;}
 .type-chips{grid-template-columns:1fr;}
 .actions-grid{grid-template-columns:1fr;}
 .win-banner{flex-direction:column;align-items:flex-start;}
+.nav-links{display:none;}
+.step-label{display:none;}
+.step-connector{width:24px;}
 }
 </style>
-
 </head>
 <body>
 
@@ -133,37 +172,61 @@ textarea{resize:vertical;min-height:80px;}
 </svg>
 Dispute<span>Shield</span>
 </a>
+<div class="nav-links">
+<a href="index.html" class="nav-link">Home</a>
+<a href="app.html" class="nav-link active">Generator</a>
+<a href="dashboard.html" class="nav-link">Dashboard</a>
+</div>
 <div class="nav-badge"><span class="badge-dot"></span>AI ACTIVE</div>
 </nav>
 
 <div class="wrap">
 
 <!-- HERO -->
-
 <div class="hero">
 <h1>Generate Your Chargeback Defense</h1>
-<p>Fill in your dispute details — AI builds a winning defense letter in 30 seconds.</p>
+<p>Fill in your dispute details -- AI builds a winning defense letter in 30 seconds.</p>
 </div>
 
 <!-- STATS -->
-
 <div class="stats">
 <div class="stat"><div class="stat-val">94%</div><div class="stat-label">Win Rate</div></div>
 <div class="stat"><div class="stat-val">30s</div><div class="stat-label">Generation Time</div></div>
 <div class="stat"><div class="stat-val">$0</div><div class="stat-label">Legal Fees</div></div>
 </div>
 
-<!-- ERROR -->
+<!-- STEP PROGRESS -->
+<div class="step-progress" id="step-progress">
+<div class="step-item">
+<div class="step-circle active" data-step="1">1</div>
+<span class="step-label active">Dispute Info</span>
+</div>
+<div class="step-connector" data-connector="1"></div>
+<div class="step-item">
+<div class="step-circle" data-step="2">2</div>
+<span class="step-label">Order Details</span>
+</div>
+<div class="step-connector" data-connector="2"></div>
+<div class="step-item">
+<div class="step-circle" data-step="3">3</div>
+<span class="step-label">Evidence</span>
+</div>
+<div class="step-connector" data-connector="3"></div>
+<div class="step-item">
+<div class="step-circle" data-step="4">4</div>
+<span class="step-label">Claim</span>
+</div>
+</div>
 
+<!-- ERROR -->
 <div class="error-box" id="error-box"></div>
 
 <!-- FORM -->
-
 <div id="form-section">
 
 <!-- STEP 1 -->
-<div class="card">
-<div class="card-title">01 — Dispute Info</div>
+<div class="card" data-card="1">
+<div class="card-title">01 -- Dispute Info</div>
 <div class="field">
 <label>Payment Processor</label>
 <div class="chips" id="processor-chips">
@@ -178,62 +241,63 @@ Dispute<span>Shield</span>
 <div class="field">
 <label>Dispute Type</label>
 <div class="type-chips">
-<button class="type-chip active" onclick="selectType(this,'Item Not Received')">📦 Item Not Received</button>
-<button class="type-chip" onclick="selectType(this,'Item Not as Described')">🔍 Item Not as Described</button>
-<button class="type-chip" onclick="selectType(this,'Unauthorized Transaction')">🚨 Unauthorized Transaction</button>
-<button class="type-chip" onclick="selectType(this,'Credit Not Processed')">💳 Credit Not Processed</button>
+<button class="type-chip active" onclick="selectType(this,'Item Not Received')">&#x1F4E6; Item Not Received</button>
+<button class="type-chip" onclick="selectType(this,'Item Not as Described')">&#x1F50D; Item Not as Described</button>
+<button class="type-chip" onclick="selectType(this,'Unauthorized Transaction')">&#x1F6A8; Unauthorized Transaction</button>
+<button class="type-chip" onclick="selectType(this,'Credit Not Processed')">&#x1F4B3; Credit Not Processed</button>
 </div>
+<div class="template-hint" id="template-hint">&#x2192; Template auto-filled in Customer Claim below</div>
 </div>
 </div>
 
 <!-- STEP 2 -->
-<div class="card">
-<div class="card-title">02 — Order Details</div>
+<div class="card" data-card="2">
+<div class="card-title">02 -- Order Details</div>
 <div class="grid-2">
 <div class="field">
 <label>Order ID <span class="field-hint">required</span></label>
-<input type="text" id="orderId" placeholder="e.g. #4821">
+<input type="text" id="orderId" placeholder="e.g. #4821" onfocus="updateStepProgress(2)">
 </div>
 <div class="field">
 <label>Amount Disputed <span class="field-hint">required</span></label>
-<input type="text" id="amount" placeholder="e.g. 149.99">
+<input type="text" id="amount" placeholder="e.g. 149.99" onfocus="updateStepProgress(2)">
 </div>
 <div class="field">
 <label>Order Date</label>
-<input type="date" id="orderDate">
+<input type="date" id="orderDate" onfocus="updateStepProgress(2)">
 </div>
 <div class="field">
 <label>Customer Email</label>
-<input type="email" id="customerEmail" placeholder="customer@email.com">
+<input type="email" id="customerEmail" placeholder="customer@email.com" onfocus="updateStepProgress(2)">
 </div>
 </div>
 </div>
 
 <!-- STEP 3 -->
-<div class="card">
-<div class="card-title">03 — Shipping & Evidence</div>
+<div class="card" data-card="3">
+<div class="card-title">03 -- Shipping &amp; Evidence</div>
 <div class="grid-2">
 <div class="field">
 <label>Tracking Number</label>
-<input type="text" id="trackingNumber" placeholder="e.g. 1Z999AA10123456784">
+<input type="text" id="trackingNumber" placeholder="e.g. 1Z999AA10123456784" onfocus="updateStepProgress(3)">
 </div>
 <div class="field">
 <label>Delivery Date</label>
-<input type="date" id="deliveryDate">
+<input type="date" id="deliveryDate" onfocus="updateStepProgress(3)">
 </div>
 </div>
 </div>
 
 <!-- STEP 4 -->
-<div class="card">
-<div class="card-title">04 — Customer's Claim</div>
+<div class="card" data-card="4">
+<div class="card-title">04 -- Customer's Claim</div>
 <div class="field">
 <label>What did the customer say?</label>
-<textarea id="customerMessage" placeholder='"I never received my order. I want a full refund immediately."'></textarea>
+<textarea id="customerMessage" placeholder="Select a dispute type above to auto-fill, or type the customer's claim here." onfocus="updateStepProgress(4)"></textarea>
 </div>
 <div class="field">
 <label>Additional context</label>
-<textarea id="extraInfo" placeholder="e.g. Customer previously asked to cancel but we had already shipped." style="min-height:60px;"></textarea>
+<textarea id="extraInfo" placeholder="e.g. Customer previously asked to cancel but we had already shipped." style="min-height:60px;" onfocus="updateStepProgress(4)"></textarea>
 </div>
 </div>
 
@@ -245,19 +309,18 @@ Generate My Defense Letter
 </div>
 
 <!-- LOADING -->
-
 <div class="loading" id="loading-section">
 <div class="spinner"></div>
 <div class="loading-title">Building your defense...</div>
 <div class="loading-sub" id="loading-msg">Analyzing dispute type and processor rules...</div>
+<div class="loading-bar"><div class="loading-bar-fill" id="loading-bar-fill"></div></div>
 </div>
 
 <!-- RESULT -->
-
 <div class="result" id="result-section">
 <div class="win-banner">
 <div>
-<div class="win-label">✅ Defense Ready</div>
+<div class="win-label">&#x2705; Defense Ready</div>
 <div class="win-subject" id="res-subject"></div>
 </div>
 <div class="win-score">
@@ -266,31 +329,33 @@ Generate My Defense Letter
 </div>
 </div>
 <div class="card">
-<div class="card-title">🎯 Key Arguments</div>
+<div class="card-title">&#x1F3AF; Key Arguments</div>
 <div id="res-args"></div>
 </div>
 
 <div class="card" style="border-color:var(--borderBlue);">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-<div class="card-title" style="margin-bottom:0;">📄 Defense Letter</div>
+<div class="card-title" style="margin-bottom:0;">&#x1F4C4; Defense Letter</div>
 <button class="btn-copy" onclick="copyLetter()">Copy Text</button>
 </div>
 <div class="letter-box" id="res-letter"></div>
 </div>
 
 <div class="card">
-<div class="card-title">📎 Evidence to Attach</div>
+<div class="card-title">&#x1F4CE; Evidence to Attach</div>
 <div id="res-evidence"></div>
 </div>
 
 <div class="tips-card" id="res-tips-wrap">
-<div class="tips-title">💡 Pro Tips</div>
+<div class="tips-title">&#x1F4A1; Pro Tips</div>
 <div id="res-tips"></div>
 </div>
 
 <div class="actions-grid">
-<button class="btn-primary" onclick="downloadDefense()">⬇ Download Defense</button>
-<button class="btn-ghost" onclick="resetForm()">← New Dispute</button>
+<button class="btn-primary" onclick="downloadDefense()">&#x2B07; Download Defense</button>
+<a class="btn-dashboard" href="dashboard.html">&#x1F4CA; View in Dashboard</a>
+<button class="btn-ghost" onclick="resetForm()">&#x2190; New Dispute</button>
+</div>
 
 </div>
 
@@ -301,6 +366,14 @@ let selectedProcessor = 'Stripe';
 let selectedType = 'Item Not Received';
 let currentResult = null;
 let currentForm = {};
+let currentStep = 1;
+
+const disputeTemplates = {
+'Item Not Received': 'I never received my order. The tracking shows delivered but I never got the package. I want a full refund.',
+'Item Not as Described': 'The item I received is completely different from what was shown on the website. The quality is very poor and not as advertised.',
+'Unauthorized Transaction': 'I did not authorize this purchase. Someone used my card without my permission. I want this charge reversed immediately.',
+'Credit Not Processed': 'I returned the item weeks ago and was promised a refund, but I still haven\'t received my money back.'
+};
 
 const loadingMsgs = [
 'Analyzing dispute type and processor rules...',
@@ -309,27 +382,87 @@ const loadingMsgs = [
 'Finalizing your defense document...'
 ];
 let loadingInterval;
+let loadingBarInterval;
 
 function selectProcessor(btn, val) {
 document.querySelectorAll('#processor-chips .chip-btn').forEach(b => b.classList.remove('active'));
 btn.classList.add('active');
 selectedProcessor = val;
+updateStepProgress(1);
 }
 
 function selectType(btn, val) {
 document.querySelectorAll('.type-chip').forEach(b => b.classList.remove('active'));
 btn.classList.add('active');
 selectedType = val;
+updateStepProgress(1);
+
+// Auto-fill template
+const textarea = document.getElementById('customerMessage');
+const hint = document.getElementById('template-hint');
+if (disputeTemplates[val]) {
+textarea.value = disputeTemplates[val];
+textarea.style.borderColor = 'rgba(0,222,255,0.3)';
+hint.classList.add('show');
+setTimeout(() => {
+textarea.style.borderColor = '';
+hint.classList.remove('show');
+}, 2000);
+}
+}
+
+function updateStepProgress(step) {
+if (step > currentStep) currentStep = step;
+const circles = document.querySelectorAll('.step-circle');
+const labels = document.querySelectorAll('.step-label');
+const connectors = document.querySelectorAll('.step-connector');
+circles.forEach(c => {
+const s = parseInt(c.dataset.step);
+c.classList.remove('active', 'completed');
+if (s < currentStep) c.classList.add('completed');
+else if (s === currentStep) c.classList.add('active');
+});
+labels.forEach((l, i) => {
+l.classList.remove('active', 'completed');
+const s = i + 1;
+if (s < currentStep) l.classList.add('completed');
+else if (s === currentStep) l.classList.add('active');
+});
+connectors.forEach(c => {
+const s = parseInt(c.dataset.connector);
+c.classList.toggle('completed', s < currentStep);
+});
 }
 
 function showError(msg) {
 const el = document.getElementById('error-box');
-el.textContent = '⚠ ' + msg;
+el.textContent = '\u26A0 ' + msg;
 el.classList.add('show');
 }
 
 function hideError() {
 document.getElementById('error-box').classList.remove('show');
+}
+
+function saveToHistory(formData, result) {
+const history = JSON.parse(localStorage.getItem('disputeshield_history') || '[]');
+const entry = {
+id: 'DS-' + Date.now().toString(36).toUpperCase(),
+date: new Date().toISOString(),
+orderId: formData.orderId,
+amount: formData.amount,
+processor: formData.processor,
+disputeType: formData.disputeType,
+winProbability: result.winProbability,
+subject: result.subject,
+status: 'generated',
+letter: result.letter,
+keyArguments: result.keyArguments,
+evidenceChecklist: result.evidenceChecklist,
+tips: result.tips
+};
+history.unshift(entry);
+localStorage.setItem('disputeshield_history', JSON.stringify(history));
 }
 
 async function generate() {
@@ -352,12 +485,22 @@ extraInfo: document.getElementById('extraInfo').value,
 document.getElementById('form-section').style.display = 'none';
 document.getElementById('loading-section').classList.add('show');
 document.getElementById('result-section').classList.remove('show');
+document.querySelector('.step-progress').style.display = 'none';
 
 let i = 0;
+let barProgress = 0;
+const barFill = document.getElementById('loading-bar-fill');
+barFill.style.width = '0%';
+
 loadingInterval = setInterval(() => {
 i = (i + 1) % loadingMsgs.length;
 document.getElementById('loading-msg').textContent = loadingMsgs[i];
 }, 2000);
+
+loadingBarInterval = setInterval(() => {
+barProgress = Math.min(barProgress + Math.random() * 12, 90);
+barFill.style.width = barProgress + '%';
+}, 800);
 
 const prompt = `You are a chargeback defense expert with 15 years of experience winning disputes for e-commerce merchants. Generate a professional, winning chargeback defense letter.
 
@@ -387,11 +530,18 @@ const raw = data.content[0].text;
 const clean = raw.replace(/```json|```/gi, '').trim();
 currentResult = JSON.parse(clean);
 clearInterval(loadingInterval);
+clearInterval(loadingBarInterval);
+document.getElementById('loading-bar-fill').style.width = '100%';
+setTimeout(() => {
+saveToHistory(currentForm, currentResult);
 renderResult();
+}, 400);
 } catch(e) {
 clearInterval(loadingInterval);
+clearInterval(loadingBarInterval);
 document.getElementById('loading-section').classList.remove('show');
 document.getElementById('form-section').style.display = 'block';
+document.querySelector('.step-progress').style.display = 'flex';
 showError('Generation failed. Please try again.');
 }
 }
@@ -401,33 +551,43 @@ const r = currentResult;
 document.getElementById('res-subject').textContent = r.subject;
 document.getElementById('res-score').textContent = r.winProbability + '%';
 document.getElementById('res-args').innerHTML = r.keyArguments.map((a, i) =>
-`<div class="arg-item"><span class="arg-num">0${i+1}</span>${a}</div>`
+`<div class="arg-item" style="animation:slideIn 0.3s ${i * 0.1}s ease both"><span class="arg-num">0${i+1}</span>${a}</div>`
 ).join('');
 document.getElementById('res-letter').textContent = r.letter;
-document.getElementById('res-evidence').innerHTML = r.evidenceChecklist.map(e =>
-`<div class="evidence-item"><span class="checkbox"></span>${e}</div>`
+document.getElementById('res-evidence').innerHTML = r.evidenceChecklist.map((e, i) =>
+`<div class="evidence-item" style="animation:slideIn 0.3s ${i * 0.08}s ease both" onclick="toggleCheck(this)"><span class="checkbox"></span>${e}</div>`
 ).join('');
 if (r.tips && r.tips.length) {
-document.getElementById('res-tips').innerHTML = r.tips.map(t =>
-`<div class="tip-item"><span class="tip-arrow">→</span>${t}</div>`
+document.getElementById('res-tips').innerHTML = r.tips.map((t, i) =>
+`<div class="tip-item" style="animation:slideIn 0.3s ${i * 0.1}s ease both"><span class="tip-arrow">\u2192</span>${t}</div>`
 ).join('');
 }
 document.getElementById('loading-section').classList.remove('show');
 document.getElementById('result-section').classList.add('show');
 }
 
+function toggleCheck(el) {
+el.querySelector('.checkbox').classList.toggle('checked');
+}
+
 function copyLetter() {
 navigator.clipboard.writeText(currentResult.letter);
 const btn = document.querySelector('.btn-copy');
 btn.textContent = 'Copied!';
-setTimeout(() => btn.textContent = 'Copy Text', 2000);
+btn.style.color = 'var(--green)';
+btn.style.borderColor = 'rgba(0,201,141,0.3)';
+setTimeout(() => {
+btn.textContent = 'Copy Text';
+btn.style.color = '';
+btn.style.borderColor = '';
+}, 2000);
 }
 
 function downloadDefense() {
 const r = currentResult;
 const f = currentForm;
 const content = `CHARGEBACK DEFENSE LETTER
-DisputeShield — Professional Dispute Resolution
+DisputeShield -- Professional Dispute Resolution
 ${'='.repeat(60)}
 
 Subject: ${r.subject}
@@ -441,11 +601,11 @@ ${'='.repeat(60)}
 ${r.letter}
 
 ${'='.repeat(60)}
-EVIDENCE CHECKLIST — Attach the following to your submission:
+EVIDENCE CHECKLIST -- Attach the following to your submission:
 ${r.evidenceChecklist.map((e,i) => `${i+1}. ${e}`).join('\n')}
 
 ${'='.repeat(60)}
-Generated by DisputeShield — disputeshield.app
+Generated by DisputeShield -- disputeshield.app
 Estimated Win Rate: ${r.winProbability}%`;
 
 const blob = new Blob([content], {type:'text/plain'});
@@ -458,12 +618,27 @@ a.click(); URL.revokeObjectURL(url);
 function resetForm() {
 document.getElementById('result-section').classList.remove('show');
 document.getElementById('form-section').style.display = 'block';
+document.querySelector('.step-progress').style.display = 'flex';
 document.getElementById('orderId').value = '';
 document.getElementById('amount').value = '';
+document.getElementById('orderDate').value = '';
+document.getElementById('customerEmail').value = '';
+document.getElementById('trackingNumber').value = '';
+document.getElementById('deliveryDate').value = '';
 document.getElementById('customerMessage').value = '';
 document.getElementById('extraInfo').value = '';
+currentStep = 1;
+updateStepProgress(1);
 window.scrollTo({top:0,behavior:'smooth'});
 }
+
+// Initialize template for default selected type
+document.addEventListener('DOMContentLoaded', function() {
+const textarea = document.getElementById('customerMessage');
+if (disputeTemplates[selectedType]) {
+textarea.value = disputeTemplates[selectedType];
+}
+});
 </script>
 
 </body>
