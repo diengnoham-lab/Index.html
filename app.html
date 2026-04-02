@@ -30,7 +30,7 @@ nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-co
 .badge-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 2s infinite;}
 
 /* WRAP */
-.wrap{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:28px 20px 80px;}
+.wrap{position:relative;z-index:1;max-width:800px;margin:0 auto;padding:28px 20px 80px;}
 
 /* HERO */
 .hero{text-align:center;margin-bottom:28px;animation:fadeUp 0.4s ease both;}
@@ -47,54 +47,73 @@ nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-co
 /* STEP PROGRESS */
 .step-progress{display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:28px;animation:fadeUp 0.4s 0.15s ease both;}
 .step-item{display:flex;align-items:center;gap:0;}
-.step-circle{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;border:2px solid var(--border);color:var(--muted);background:var(--surface);transition:all 0.3s;cursor:default;}
+.step-circle{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;border:2px solid var(--border);color:var(--muted);background:var(--surface);transition:all 0.3s;}
 .step-circle.active{border-color:var(--blue);color:var(--cyan);background:rgba(26,108,255,0.1);box-shadow:0 0 16px rgba(26,108,255,0.2);}
 .step-circle.completed{border-color:var(--green);color:var(--green);background:rgba(0,201,141,0.1);}
 .step-label{font-size:10px;color:var(--muted);margin-left:6px;font-weight:600;letter-spacing:0.02em;transition:color 0.3s;white-space:nowrap;}
 .step-label.active{color:var(--cyan);}
 .step-label.completed{color:var(--green);}
-.step-connector{width:40px;height:2px;background:var(--border);margin:0 8px;transition:background 0.3s;}
+.step-connector{width:32px;height:2px;background:var(--border);margin:0 6px;transition:background 0.3s;}
 .step-connector.completed{background:var(--green);}
 
 /* CARD */
 .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 24px;margin-bottom:14px;animation:fadeUp 0.4s ease both;transition:border-color 0.3s;}
 .card:hover{border-color:rgba(255,255,255,0.1);}
 .card-title{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:18px;}
+.card-subtitle{font-size:12px;color:var(--dim);margin-top:-12px;margin-bottom:16px;font-style:italic;}
 
 /* FIELDS */
-.field{margin-bottom:18px;}
-.field label{display:block;font-size:13px;font-weight:700;color:var(--text);margin-bottom:7px;}
+.field{margin-bottom:16px;}
+.field label{display:block;font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px;}
 .field-hint{font-size:11px;color:var(--muted);font-family:'IBM Plex Mono',monospace;float:right;}
+.field-help{font-size:11px;color:var(--muted);margin-top:4px;}
 input,textarea,select{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:11px 14px;font-family:'Bricolage Grotesque',sans-serif;font-size:13px;color:var(--text);outline:none;transition:border-color 0.2s,box-shadow 0.2s;color-scheme:dark;}
 input:focus,textarea:focus,select:focus{border-color:var(--borderBlue);box-shadow:0 0 0 3px rgba(26,108,255,0.08);}
 textarea{resize:vertical;min-height:80px;}
+select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%238892A8' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
 
 /* CHIP BUTTONS */
 .chips{display:flex;gap:8px;flex-wrap:wrap;}
 .chip-btn{font-size:12px;font-weight:600;padding:7px 14px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--dim);cursor:pointer;transition:all 0.2s;font-family:'Bricolage Grotesque',sans-serif;}
 .chip-btn:hover{border-color:rgba(255,255,255,0.15);color:var(--text);}
-.chip-btn.active{border-color:var(--blue);background:rgba(26,108,255,0.12);color:var(--cyan);box-shadow:0 0 12px rgba(26,108,255,0.1);}
+.chip-btn.active{border-color:var(--blue);background:rgba(26,108,255,0.12);color:var(--cyan);}
 .type-chips{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 .type-chip{font-size:12px;font-weight:600;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--dim);cursor:pointer;transition:all 0.2s;text-align:left;display:flex;align-items:center;gap:8px;font-family:'Bricolage Grotesque',sans-serif;}
 .type-chip:hover{border-color:rgba(255,255,255,0.15);color:var(--text);}
-.type-chip.active{border-color:var(--blue);background:rgba(26,108,255,0.1);color:var(--cyan);box-shadow:0 0 12px rgba(26,108,255,0.1);}
+.type-chip.active{border-color:var(--blue);background:rgba(26,108,255,0.1);color:var(--cyan);}
+
+/* REASON CODE BADGE */
+.reason-badge{display:inline-flex;align-items:center;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--cyan);background:rgba(26,108,255,0.08);border:1px solid rgba(26,108,255,0.2);padding:4px 10px;border-radius:6px;margin-top:8px;transition:opacity 0.3s;}
+
+/* TOGGLE */
+.toggle-row{display:flex;align-items:center;gap:12px;padding:8px 0;}
+.toggle-label{font-size:13px;color:var(--dim);}
+.toggle-group{display:flex;gap:6px;}
+.toggle-btn{font-size:11px;font-weight:600;padding:5px 12px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-family:'Bricolage Grotesque',sans-serif;transition:all 0.15s;}
+.toggle-btn.active{border-color:var(--green);background:rgba(0,201,141,0.1);color:var(--green);}
+.toggle-btn.active-no{border-color:var(--red);background:rgba(255,61,87,0.08);color:var(--red);}
+.toggle-btn.active-na{border-color:var(--muted);background:rgba(255,255,255,0.04);color:var(--dim);}
 
 /* TEMPLATE HINT */
 .template-hint{font-size:11px;color:var(--cyan);font-family:'IBM Plex Mono',monospace;margin-top:6px;opacity:0;transition:opacity 0.3s;display:flex;align-items:center;gap:4px;}
 .template-hint.show{opacity:1;}
 
+/* SECTION DIVIDER */
+.section-note{background:rgba(26,108,255,0.05);border:1px solid rgba(26,108,255,0.15);border-radius:10px;padding:12px 16px;margin-bottom:14px;font-size:12px;color:var(--dim);line-height:1.6;display:flex;gap:10px;align-items:flex-start;}
+.section-note strong{color:var(--cyan);white-space:nowrap;}
+
 /* BTN */
 .btn-primary{width:100%;background:linear-gradient(135deg,var(--blue),#0050E0);color:#fff;font-family:'Bricolage Grotesque',sans-serif;font-size:15px;font-weight:700;padding:14px 28px;border-radius:12px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 4px 20px rgba(26,108,255,0.35);transition:all 0.25s;}
 .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(26,108,255,0.45);}
-.btn-primary:active{transform:translateY(0);box-shadow:0 2px 12px rgba(26,108,255,0.3);}
 .btn-primary:disabled{opacity:0.4;cursor:not-allowed;transform:none;box-shadow:none;}
-.btn-ghost{width:100%;background:transparent;color:var(--dim);font-family:'Bricolage Grotesque',sans-serif;font-size:14px;font-weight:600;padding:14px;border-radius:12px;border:1px solid var(--border);cursor:pointer;transition:all 0.2s;}
+.btn-ghost{width:100%;background:transparent;color:var(--dim);font-family:'Bricolage Grotesque',sans-serif;font-size:14px;font-weight:600;padding:14px;border-radius:12px;border:1px solid var(--border);cursor:pointer;transition:all 0.2s;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;}
 .btn-ghost:hover{border-color:rgba(255,255,255,0.15);color:var(--text);}
 .btn-dashboard{width:100%;background:rgba(0,201,141,0.08);color:var(--green);font-family:'Bricolage Grotesque',sans-serif;font-size:14px;font-weight:600;padding:14px;border-radius:12px;border:1px solid rgba(0,201,141,0.2);cursor:pointer;transition:all 0.2s;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;}
-.btn-dashboard:hover{background:rgba(0,201,141,0.14);border-color:rgba(0,201,141,0.35);transform:translateY(-1px);}
+.btn-dashboard:hover{background:rgba(0,201,141,0.14);border-color:rgba(0,201,141,0.35);}
 .btn-copy{font-size:12px;font-weight:600;padding:6px 14px;border-radius:7px;border:1px solid var(--border);background:transparent;color:var(--dim);cursor:pointer;font-family:'Bricolage Grotesque',sans-serif;transition:all 0.15s;}
-.btn-copy:hover{color:var(--text);border-color:rgba(255,255,255,0.15);}
+.btn-copy:hover{color:var(--text);}
 
 /* ERROR */
 .error-box{background:rgba(255,61,87,0.08);border:1px solid rgba(255,61,87,0.2);border-radius:10px;padding:12px 16px;font-size:13px;color:var(--red);margin-bottom:16px;display:none;animation:shake 0.4s ease;}
@@ -106,38 +125,51 @@ textarea{resize:vertical;min-height:80px;}
 .spinner{width:44px;height:44px;border:3px solid rgba(26,108,255,0.15);border-top:3px solid var(--blue);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 20px;}
 .loading-title{font-size:15px;font-weight:600;margin-bottom:8px;}
 .loading-sub{font-size:13px;color:var(--dim);font-family:'IBM Plex Mono',monospace;}
-.loading-bar{width:200px;height:3px;background:var(--border);border-radius:2px;margin:16px auto 0;overflow:hidden;}
+.loading-bar{width:240px;height:3px;background:var(--border);border-radius:2px;margin:16px auto 0;overflow:hidden;}
 .loading-bar-fill{width:0%;height:100%;background:linear-gradient(90deg,var(--blue),var(--cyan));border-radius:2px;transition:width 0.5s ease;}
 
 /* RESULT */
 .result{display:none;animation:fadeUp 0.4s ease both;}
 .result.show{display:block;}
 
-.win-banner{background:linear-gradient(135deg,rgba(0,201,141,0.08),rgba(26,108,255,0.06));border:1px solid rgba(0,201,141,0.2);border-radius:14px;padding:20px 24px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:16px;animation:glowPulse 3s ease-in-out infinite;}
+.win-banner{background:linear-gradient(135deg,rgba(0,201,141,0.08),rgba(26,108,255,0.06));border:1px solid rgba(0,201,141,0.2);border-radius:14px;padding:20px 24px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
 .win-label{font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--green);margin-bottom:4px;}
-.win-subject{font-size:15px;font-weight:700;}
+.win-subject{font-size:14px;font-weight:700;}
+.win-reason{font-size:11px;color:var(--cyan);font-family:'IBM Plex Mono',monospace;margin-top:4px;}
 .win-score{text-align:center;background:rgba(0,201,141,0.1);border:1px solid rgba(0,201,141,0.2);border-radius:12px;padding:12px 18px;min-width:80px;flex-shrink:0;}
 .win-num{font-family:'IBM Plex Mono',monospace;font-size:28px;font-weight:700;color:var(--green);line-height:1;}
 .win-tag{font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--green);margin-top:2px;}
 
-.arg-item{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--dim);transition:color 0.2s;}
-.arg-item:hover{color:var(--text);}
+/* DEADLINE WARNING */
+.deadline-box{background:rgba(255,184,0,0.06);border:1px solid rgba(255,184,0,0.2);border-radius:10px;padding:12px 16px;margin-bottom:14px;font-size:13px;color:var(--gold);display:flex;align-items:center;gap:10px;}
+
+.arg-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--dim);line-height:1.6;}
 .arg-item:last-child{border-bottom:none;}
-.arg-num{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--cyan);margin-top:1px;flex-shrink:0;}
+.arg-num{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--cyan);margin-top:2px;flex-shrink:0;}
 
-.letter-box{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px 20px;font-size:13px;color:var(--dim);line-height:1.85;white-space:pre-wrap;font-family:Georgia,serif;max-height:400px;overflow-y:auto;}
+.letter-box{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px 24px;font-size:13px;color:var(--dim);line-height:1.9;white-space:pre-wrap;font-family:Georgia,'Times New Roman',serif;max-height:500px;overflow-y:auto;}
 
-.evidence-item{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--dim);align-items:center;transition:color 0.2s;cursor:pointer;}
+.evidence-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--dim);align-items:flex-start;line-height:1.5;cursor:pointer;transition:color 0.2s;}
 .evidence-item:hover{color:var(--text);}
 .evidence-item:last-child{border-bottom:none;}
-.checkbox{width:18px;height:18px;border-radius:4px;border:1px solid var(--muted);flex-shrink:0;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;}
+.checkbox{width:18px;height:18px;min-width:18px;border-radius:4px;border:1px solid var(--muted);flex-shrink:0;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;margin-top:1px;}
 .checkbox.checked{border-color:var(--green);background:rgba(0,201,141,0.15);}
 .checkbox.checked::after{content:'';display:block;width:10px;height:6px;border-left:2px solid var(--green);border-bottom:2px solid var(--green);transform:rotate(-45deg) translateY(-1px);}
 
+/* PROCESSOR FIELDS */
+.pf-card{background:rgba(26,108,255,0.04);border:1px solid rgba(26,108,255,0.15);border-radius:14px;padding:22px 24px;margin-bottom:14px;}
+.pf-title{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue);margin-bottom:16px;}
+.pf-field{margin-bottom:14px;}
+.pf-label{font-size:11px;font-weight:700;color:var(--dim);margin-bottom:6px;font-family:'IBM Plex Mono',monospace;display:flex;justify-content:space-between;align-items:center;}
+.pf-value{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 14px;font-size:12px;color:var(--dim);line-height:1.6;white-space:pre-wrap;cursor:pointer;transition:border-color 0.2s;}
+.pf-value:hover{border-color:var(--borderBlue);}
+.pf-copy{font-size:10px;color:var(--cyan);cursor:pointer;font-weight:600;transition:color 0.15s;}
+.pf-copy:hover{color:var(--text);}
+
 .tips-card{background:rgba(255,184,0,0.06);border:1px solid rgba(255,184,0,0.15);border-radius:14px;padding:18px 24px;margin-bottom:14px;}
 .tips-title{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
-.tip-item{font-size:13px;color:var(--dim);padding:5px 0;display:flex;gap:8px;}
-.tip-arrow{color:var(--gold);}
+.tip-item{font-size:13px;color:var(--dim);padding:6px 0;display:flex;gap:8px;line-height:1.5;}
+.tip-arrow{color:var(--gold);flex-shrink:0;}
 
 .actions-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
 
@@ -146,18 +178,16 @@ textarea{resize:vertical;min-height:80px;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
 @keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-4px)}40%,80%{transform:translateX(4px)}}
-@keyframes glowPulse{0%,100%{box-shadow:0 0 20px rgba(0,201,141,0.05)}50%{box-shadow:0 0 30px rgba(0,201,141,0.12)}}
-@keyframes countUp{from{opacity:0;transform:scale(0.5)}to{opacity:1;transform:scale(1)}}
 @keyframes slideIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:translateX(0)}}
 
 @media(max-width:600px){
-.grid-2{grid-template-columns:1fr;}
+.grid-2,.grid-3{grid-template-columns:1fr;}
 .type-chips{grid-template-columns:1fr;}
 .actions-grid{grid-template-columns:1fr;}
 .win-banner{flex-direction:column;align-items:flex-start;}
 .nav-links{display:none;}
 .step-label{display:none;}
-.step-connector{width:24px;}
+.step-connector{width:20px;}
 }
 </style>
 </head>
@@ -185,13 +215,13 @@ Dispute<span>Shield</span>
 <!-- HERO -->
 <div class="hero">
 <h1>Generate Your Chargeback Defense</h1>
-<p>Fill in your dispute details -- AI builds a winning defense letter in 30 seconds.</p>
+<p>Bank-grade representment letters with Visa/Mastercard reason codes. Built to win.</p>
 </div>
 
 <!-- STATS -->
 <div class="stats">
 <div class="stat"><div class="stat-val">94%</div><div class="stat-label">Win Rate</div></div>
-<div class="stat"><div class="stat-val">30s</div><div class="stat-label">Generation Time</div></div>
+<div class="stat"><div class="stat-val">Visa + MC</div><div class="stat-label">Reason Codes</div></div>
 <div class="stat"><div class="stat-val">$0</div><div class="stat-label">Legal Fees</div></div>
 </div>
 
@@ -214,6 +244,11 @@ Dispute<span>Shield</span>
 <div class="step-connector" data-connector="3"></div>
 <div class="step-item">
 <div class="step-circle" data-step="4">4</div>
+<span class="step-label">Verification</span>
+</div>
+<div class="step-connector" data-connector="4"></div>
+<div class="step-item">
+<div class="step-circle" data-step="5">5</div>
 <span class="step-label">Claim</span>
 </div>
 </div>
@@ -224,9 +259,9 @@ Dispute<span>Shield</span>
 <!-- FORM -->
 <div id="form-section">
 
-<!-- STEP 1 -->
+<!-- STEP 1: DISPUTE INFO -->
 <div class="card" data-card="1">
-<div class="card-title">01 -- Dispute Info</div>
+<div class="card-title">01 — Dispute Info</div>
 <div class="field">
 <label>Payment Processor</label>
 <div class="chips" id="processor-chips">
@@ -246,25 +281,42 @@ Dispute<span>Shield</span>
 <button class="type-chip" onclick="selectType(this,'Unauthorized Transaction')">&#x1F6A8; Unauthorized Transaction</button>
 <button class="type-chip" onclick="selectType(this,'Credit Not Processed')">&#x1F4B3; Credit Not Processed</button>
 </div>
+<div class="reason-badge" id="reason-badge">Visa: 13.1 &middot; MC: 4855 &middot; Merchandise Not Received</div>
 <div class="template-hint" id="template-hint">&#x2192; Template auto-filled in Customer Claim below</div>
 </div>
 </div>
 
-<!-- STEP 2 -->
+<!-- STEP 2: ORDER DETAILS -->
 <div class="card" data-card="2">
-<div class="card-title">02 -- Order Details</div>
+<div class="card-title">02 — Order &amp; Merchant Details</div>
+<div class="card-subtitle">The more details you provide, the stronger your defense.</div>
 <div class="grid-2">
 <div class="field">
+<label>Your Business Name <span class="field-hint">recommended</span></label>
+<input type="text" id="businessName" placeholder="e.g. ShopBright LLC" onfocus="updateStepProgress(2)">
+</div>
+<div class="field">
 <label>Order ID <span class="field-hint">required</span></label>
-<input type="text" id="orderId" placeholder="e.g. #4821" onfocus="updateStepProgress(2)">
+<input type="text" id="orderId" placeholder="e.g. #ORD-4821" onfocus="updateStepProgress(2)">
 </div>
 <div class="field">
 <label>Amount Disputed <span class="field-hint">required</span></label>
 <input type="text" id="amount" placeholder="e.g. 149.99" onfocus="updateStepProgress(2)">
 </div>
 <div class="field">
-<label>Order Date</label>
+<label>Order/Transaction Date</label>
 <input type="date" id="orderDate" onfocus="updateStepProgress(2)">
+</div>
+</div>
+<div class="field">
+<label>Product / Service Description</label>
+<input type="text" id="productDescription" placeholder="e.g. Men's Running Shoes - Nike Air Max 90 - Size 10 - Black" onfocus="updateStepProgress(2)">
+<div class="field-help">Describe exactly what was sold. Banks compare this to the customer's claim.</div>
+</div>
+<div class="grid-2">
+<div class="field">
+<label>Customer Name</label>
+<input type="text" id="customerName" placeholder="e.g. John Smith" onfocus="updateStepProgress(2)">
 </div>
 <div class="field">
 <label>Customer Email</label>
@@ -273,37 +325,113 @@ Dispute<span>Shield</span>
 </div>
 </div>
 
-<!-- STEP 3 -->
+<!-- STEP 3: SHIPPING & EVIDENCE -->
 <div class="card" data-card="3">
-<div class="card-title">03 -- Shipping &amp; Evidence</div>
-<div class="grid-2">
+<div class="card-title">03 — Shipping &amp; Delivery Evidence</div>
+<div class="card-subtitle">Delivery proof is the #1 factor in winning "Item Not Received" disputes.</div>
+<div class="grid-3">
+<div class="field">
+<label>Shipping Carrier</label>
+<select id="shippingCarrier" onfocus="updateStepProgress(3)">
+<option value="">Select carrier</option>
+<option value="USPS">USPS</option>
+<option value="UPS">UPS</option>
+<option value="FedEx">FedEx</option>
+<option value="DHL">DHL</option>
+<option value="Royal Mail">Royal Mail</option>
+<option value="Canada Post">Canada Post</option>
+<option value="Amazon Logistics">Amazon Logistics</option>
+<option value="Other">Other</option>
+</select>
+</div>
 <div class="field">
 <label>Tracking Number</label>
 <input type="text" id="trackingNumber" placeholder="e.g. 1Z999AA10123456784" onfocus="updateStepProgress(3)">
 </div>
 <div class="field">
-<label>Delivery Date</label>
+<label>Shipping Date</label>
+<input type="date" id="shippingDate" onfocus="updateStepProgress(3)">
+</div>
+</div>
+<div class="grid-2">
+<div class="field">
+<label>Delivery/Confirmation Date</label>
 <input type="date" id="deliveryDate" onfocus="updateStepProgress(3)">
+</div>
+<div class="field">
+<label>Refund/Return Policy URL</label>
+<input type="text" id="refundPolicyURL" placeholder="e.g. yourstore.com/refund-policy" onfocus="updateStepProgress(3)">
 </div>
 </div>
 </div>
 
-<!-- STEP 4 -->
+<!-- STEP 4: VERIFICATION (for fraud disputes) -->
 <div class="card" data-card="4">
-<div class="card-title">04 -- Customer's Claim</div>
+<div class="card-title">04 — Transaction Verification</div>
+<div class="card-subtitle">Critical for fraud/unauthorized disputes. Helps for all types.</div>
+<div class="section-note">
+<strong>Why this matters:</strong> Banks check AVS and CVV results to determine if the real cardholder made the purchase. A positive match dramatically increases your win rate.
+</div>
+
+<div class="toggle-row">
+<span class="toggle-label">AVS (Address Verification) Match?</span>
+<div class="toggle-group" id="avs-group">
+<button class="toggle-btn" onclick="selectToggle('avs-group',this,'Full Match')">Full Match</button>
+<button class="toggle-btn" onclick="selectToggle('avs-group',this,'Partial')">Partial</button>
+<button class="toggle-btn" onclick="selectToggle('avs-group',this,'No Match')">No Match</button>
+<button class="toggle-btn active-na" onclick="selectToggle('avs-group',this,'N/A')">N/A</button>
+</div>
+</div>
+
+<div class="toggle-row">
+<span class="toggle-label">CVV/CVC Verification Match?</span>
+<div class="toggle-group" id="cvv-group">
+<button class="toggle-btn" onclick="selectToggle('cvv-group',this,'Match')">Match</button>
+<button class="toggle-btn" onclick="selectToggle('cvv-group',this,'No Match')">No Match</button>
+<button class="toggle-btn active-na" onclick="selectToggle('cvv-group',this,'N/A')">N/A</button>
+</div>
+</div>
+
+<div class="toggle-row">
+<span class="toggle-label">Billing address = Shipping address?</span>
+<div class="toggle-group" id="addr-group">
+<button class="toggle-btn" onclick="selectToggle('addr-group',this,'Yes')">Yes</button>
+<button class="toggle-btn" onclick="selectToggle('addr-group',this,'No')">No</button>
+<button class="toggle-btn active-na" onclick="selectToggle('addr-group',this,'N/A')">N/A</button>
+</div>
+</div>
+
+<div class="grid-2" style="margin-top:14px;">
 <div class="field">
-<label>What did the customer say?</label>
-<textarea id="customerMessage" placeholder="Select a dispute type above to auto-fill, or type the customer's claim here." onfocus="updateStepProgress(4)"></textarea>
+<label>Customer IP / Location</label>
+<input type="text" id="customerIP" placeholder="e.g. 192.168.1.1 / New York, US" onfocus="updateStepProgress(4)">
+<div class="field-help">Found in your Stripe/Shopify order details.</div>
 </div>
 <div class="field">
-<label>Additional context</label>
-<textarea id="extraInfo" placeholder="e.g. Customer previously asked to cancel but we had already shipped." style="min-height:60px;" onfocus="updateStepProgress(4)"></textarea>
+<label>Previous Orders by Same Customer</label>
+<input type="text" id="previousOrders" placeholder="e.g. 3 previous orders, all delivered successfully" onfocus="updateStepProgress(4)">
+<div class="field-help">Repeat customers are unlikely to commit fraud.</div>
+</div>
+</div>
+</div>
+
+<!-- STEP 5: CUSTOMER'S CLAIM -->
+<div class="card" data-card="5">
+<div class="card-title">05 — Customer's Claim &amp; Context</div>
+<div class="field">
+<label>What did the customer say?</label>
+<textarea id="customerMessage" placeholder="Select a dispute type above to auto-fill, or type the customer's exact claim here." onfocus="updateStepProgress(5)"></textarea>
+</div>
+<div class="field">
+<label>Additional context / Your side of the story</label>
+<textarea id="extraInfo" placeholder="e.g. Customer emailed us on March 5 saying they received the item. Now filing a chargeback. We have the email as proof." style="min-height:70px;" onfocus="updateStepProgress(5)"></textarea>
+<div class="field-help">Include any communication, screenshots, or facts that support your case.</div>
 </div>
 </div>
 
 <button class="btn-primary" id="generate-btn" onclick="generate()">
 <svg width="18" height="20" viewBox="0 0 80 88" fill="none"><path d="M40 2 L74 16 L74 44 C74 62 58 78 40 86 C22 78 6 62 6 44 L6 16 Z" fill="rgba(255,255,255,0.3)"/><path d="M24 46 L35 57 L57 35" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
-Generate My Defense Letter
+Generate Bank-Grade Defense
 </button>
 
 </div>
@@ -311,54 +439,65 @@ Generate My Defense Letter
 <!-- LOADING -->
 <div class="loading" id="loading-section">
 <div class="spinner"></div>
-<div class="loading-title">Building your defense...</div>
-<div class="loading-sub" id="loading-msg">Analyzing dispute type and processor rules...</div>
+<div class="loading-title">Building your representment package...</div>
+<div class="loading-sub" id="loading-msg">Analyzing Visa reason code and processor requirements...</div>
 <div class="loading-bar"><div class="loading-bar-fill" id="loading-bar-fill"></div></div>
 </div>
 
 <!-- RESULT -->
 <div class="result" id="result-section">
+
 <div class="win-banner">
 <div>
-<div class="win-label">&#x2705; Defense Ready</div>
+<div class="win-label">Defense Ready</div>
 <div class="win-subject" id="res-subject"></div>
+<div class="win-reason" id="res-reason"></div>
 </div>
 <div class="win-score">
 <div class="win-num" id="res-score"></div>
 <div class="win-tag">WIN RATE</div>
 </div>
 </div>
+
+<div class="deadline-box" id="res-deadline"></div>
+
 <div class="card">
-<div class="card-title">&#x1F3AF; Key Arguments</div>
+<div class="card-title">Key Arguments for Your Defense</div>
 <div id="res-args"></div>
 </div>
 
 <div class="card" style="border-color:var(--borderBlue);">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-<div class="card-title" style="margin-bottom:0;">&#x1F4C4; Defense Letter</div>
-<button class="btn-copy" onclick="copyLetter()">Copy Text</button>
+<div class="card-title" style="margin-bottom:0;">Formal Representment Letter</div>
+<button class="btn-copy" onclick="copyLetter()">Copy Full Letter</button>
 </div>
 <div class="letter-box" id="res-letter"></div>
 </div>
 
+<!-- PROCESSOR-SPECIFIC FIELDS -->
+<div class="pf-card" id="res-pf">
+<div class="pf-title" id="pf-title">Stripe Dispute Portal — Copy-Paste Fields</div>
+<div id="res-pf-fields"></div>
+</div>
+
 <div class="card">
-<div class="card-title">&#x1F4CE; Evidence to Attach</div>
+<div class="card-title">Evidence Checklist — Attach These Documents</div>
+<div class="card-subtitle">Check off each item as you gather it. Submit ALL checked items with your response.</div>
 <div id="res-evidence"></div>
 </div>
 
 <div class="tips-card" id="res-tips-wrap">
-<div class="tips-title">&#x1F4A1; Pro Tips</div>
+<div class="tips-title">Pro Tips for This Dispute</div>
 <div id="res-tips"></div>
 </div>
 
 <div class="actions-grid">
-<button class="btn-primary" onclick="downloadDefense()">&#x2B07; Download Defense</button>
-<a class="btn-dashboard" href="dashboard.html">&#x1F4CA; View in Dashboard</a>
+<button class="btn-primary" onclick="downloadDefense()">&#x2B07; Download Full Package</button>
+<a class="btn-dashboard" href="dashboard.html">Dashboard</a>
 <button class="btn-ghost" onclick="resetForm()">&#x2190; New Dispute</button>
 </div>
 
 </div>
-
 </div>
 
 <script>
@@ -368,6 +507,13 @@ let currentResult = null;
 let currentForm = {};
 let currentStep = 1;
 
+const reasonCodes = {
+'Item Not Received':      { visa:'13.1', mc:'4855', label:'Merchandise/Services Not Received' },
+'Item Not as Described':  { visa:'13.3', mc:'4853', label:'Not as Described or Defective' },
+'Unauthorized Transaction':{ visa:'10.4', mc:'4837', label:'Fraud / Card-Absent Environment' },
+'Credit Not Processed':   { visa:'13.6', mc:'4860', label:'Credit Not Processed' }
+};
+
 const disputeTemplates = {
 'Item Not Received': 'I never received my order. The tracking shows delivered but I never got the package. I want a full refund.',
 'Item Not as Described': 'The item I received is completely different from what was shown on the website. The quality is very poor and not as advertised.',
@@ -376,13 +522,14 @@ const disputeTemplates = {
 };
 
 const loadingMsgs = [
-'Analyzing dispute type and processor rules...',
-'Building legal arguments for your case...',
-'Formatting evidence package...',
-'Finalizing your defense document...'
+'Analyzing Visa reason code and evidence requirements...',
+'Cross-referencing Mastercard dispute guidelines...',
+'Building compelling evidence arguments...',
+'Structuring formal representment letter...',
+'Generating processor-specific portal fields...',
+'Finalizing defense package...'
 ];
-let loadingInterval;
-let loadingBarInterval;
+let loadingInterval, loadingBarInterval;
 
 function selectProcessor(btn, val) {
 document.querySelectorAll('#processor-chips .chip-btn').forEach(b => b.classList.remove('active'));
@@ -397,40 +544,54 @@ btn.classList.add('active');
 selectedType = val;
 updateStepProgress(1);
 
-// Auto-fill template
+const rc = reasonCodes[val];
+document.getElementById('reason-badge').innerHTML =
+  `Visa: ${rc.visa} &middot; MC: ${rc.mc} &middot; ${rc.label}`;
+
 const textarea = document.getElementById('customerMessage');
 const hint = document.getElementById('template-hint');
 if (disputeTemplates[val]) {
-textarea.value = disputeTemplates[val];
-textarea.style.borderColor = 'rgba(0,222,255,0.3)';
-hint.classList.add('show');
-setTimeout(() => {
-textarea.style.borderColor = '';
-hint.classList.remove('show');
-}, 2000);
+  textarea.value = disputeTemplates[val];
+  textarea.style.borderColor = 'rgba(0,222,255,0.3)';
+  hint.classList.add('show');
+  setTimeout(() => { textarea.style.borderColor = ''; hint.classList.remove('show'); }, 2500);
 }
+}
+
+function selectToggle(groupId, btn, val) {
+const group = document.getElementById(groupId);
+group.querySelectorAll('.toggle-btn').forEach(b => {
+  b.classList.remove('active','active-no','active-na');
+});
+if (val === 'Full Match' || val === 'Match' || val === 'Yes') btn.classList.add('active');
+else if (val === 'No Match' || val === 'No') btn.classList.add('active-no');
+else btn.classList.add('active-na');
+btn.dataset.value = val;
+updateStepProgress(4);
+}
+
+function getToggleValue(groupId) {
+const active = document.querySelector(`#${groupId} .toggle-btn.active, #${groupId} .toggle-btn.active-no, #${groupId} .toggle-btn.active-na`);
+return active ? active.dataset.value || active.textContent : 'N/A';
 }
 
 function updateStepProgress(step) {
 if (step > currentStep) currentStep = step;
-const circles = document.querySelectorAll('.step-circle');
-const labels = document.querySelectorAll('.step-label');
-const connectors = document.querySelectorAll('.step-connector');
-circles.forEach(c => {
-const s = parseInt(c.dataset.step);
-c.classList.remove('active', 'completed');
-if (s < currentStep) c.classList.add('completed');
-else if (s === currentStep) c.classList.add('active');
+document.querySelectorAll('.step-circle').forEach(c => {
+  const s = parseInt(c.dataset.step);
+  c.classList.remove('active','completed');
+  if (s < currentStep) c.classList.add('completed');
+  else if (s === currentStep) c.classList.add('active');
 });
-labels.forEach((l, i) => {
-l.classList.remove('active', 'completed');
-const s = i + 1;
-if (s < currentStep) l.classList.add('completed');
-else if (s === currentStep) l.classList.add('active');
+document.querySelectorAll('.step-label').forEach((l,i) => {
+  l.classList.remove('active','completed');
+  const s = i+1;
+  if (s < currentStep) l.classList.add('completed');
+  else if (s === currentStep) l.classList.add('active');
 });
-connectors.forEach(c => {
-const s = parseInt(c.dataset.connector);
-c.classList.toggle('completed', s < currentStep);
+document.querySelectorAll('.step-connector').forEach(c => {
+  const s = parseInt(c.dataset.connector);
+  c.classList.toggle('completed', s < currentStep);
 });
 }
 
@@ -438,48 +599,60 @@ function showError(msg) {
 const el = document.getElementById('error-box');
 el.textContent = '\u26A0 ' + msg;
 el.classList.add('show');
+window.scrollTo({top:0,behavior:'smooth'});
 }
-
-function hideError() {
-document.getElementById('error-box').classList.remove('show');
-}
+function hideError() { document.getElementById('error-box').classList.remove('show'); }
 
 function saveToHistory(formData, result) {
 const history = JSON.parse(localStorage.getItem('disputeshield_history') || '[]');
-const entry = {
-id: 'DS-' + Date.now().toString(36).toUpperCase(),
-date: new Date().toISOString(),
-orderId: formData.orderId,
-amount: formData.amount,
-processor: formData.processor,
-disputeType: formData.disputeType,
-winProbability: result.winProbability,
-subject: result.subject,
-status: 'generated',
-letter: result.letter,
-keyArguments: result.keyArguments,
-evidenceChecklist: result.evidenceChecklist,
-tips: result.tips
-};
-history.unshift(entry);
+history.unshift({
+  id: 'DS-' + Date.now().toString(36).toUpperCase(),
+  date: new Date().toISOString(),
+  orderId: formData.orderId,
+  amount: formData.amount,
+  processor: formData.processor,
+  disputeType: formData.disputeType,
+  winProbability: result.winProbability,
+  subject: result.subject,
+  reasonCode: result.reasonCode,
+  status: 'generated',
+  letter: result.letter,
+  keyArguments: result.keyArguments,
+  evidenceChecklist: result.evidenceChecklist,
+  tips: result.tips,
+  processorFields: result.processorFields,
+  deadlineWarning: result.deadlineWarning
+});
 localStorage.setItem('disputeshield_history', JSON.stringify(history));
 }
 
 async function generate() {
 const orderId = document.getElementById('orderId').value.trim();
 const amount = document.getElementById('amount').value.trim();
-if (!orderId || !amount) { showError('Please fill in Order ID and Amount.'); return; }
+if (!orderId || !amount) { showError('Order ID and Amount are required to generate a defense.'); return; }
 hideError();
 
 currentForm = {
-processor: selectedProcessor, disputeType: selectedType,
-orderId, amount,
-orderDate: document.getElementById('orderDate').value,
-customerEmail: document.getElementById('customerEmail').value,
-trackingNumber: document.getElementById('trackingNumber').value,
-deliveryDate: document.getElementById('deliveryDate').value,
-customerMessage: document.getElementById('customerMessage').value,
-extraInfo: document.getElementById('extraInfo').value,
+  processor: selectedProcessor,
+  disputeType: selectedType,
+  orderId, amount,
+  businessName: document.getElementById('businessName').value.trim(),
+  productDescription: document.getElementById('productDescription').value.trim(),
+  orderDate: document.getElementById('orderDate').value,
+  customerName: document.getElementById('customerName').value.trim(),
+  customerEmail: document.getElementById('customerEmail').value.trim(),
+  shippingCarrier: document.getElementById('shippingCarrier').value,
+  trackingNumber: document.getElementById('trackingNumber').value.trim(),
+  shippingDate: document.getElementById('shippingDate').value,
+  deliveryDate: document.getElementById('deliveryDate').value,
+  refundPolicyURL: document.getElementById('refundPolicyURL').value.trim(),
+  avsResult: getToggleValue('avs-group'),
+  cvvMatch: getToggleValue('cvv-group'),
+  addressMatch: getToggleValue('addr-group'),
+  customerIP: document.getElementById('customerIP').value.trim(),
+  previousOrders: document.getElementById('previousOrders').value.trim(),
+  customerMessage: document.getElementById('customerMessage').value.trim(),
+  extraInfo: document.getElementById('extraInfo').value.trim()
 };
 
 document.getElementById('form-section').style.display = 'none';
@@ -487,87 +660,123 @@ document.getElementById('loading-section').classList.add('show');
 document.getElementById('result-section').classList.remove('show');
 document.querySelector('.step-progress').style.display = 'none';
 
-let i = 0;
-let barProgress = 0;
+let i = 0, barProgress = 0;
 const barFill = document.getElementById('loading-bar-fill');
 barFill.style.width = '0%';
-
 loadingInterval = setInterval(() => {
-i = (i + 1) % loadingMsgs.length;
-document.getElementById('loading-msg').textContent = loadingMsgs[i];
-}, 2000);
-
+  i = (i+1) % loadingMsgs.length;
+  document.getElementById('loading-msg').textContent = loadingMsgs[i];
+}, 2500);
 loadingBarInterval = setInterval(() => {
-barProgress = Math.min(barProgress + Math.random() * 12, 90);
-barFill.style.width = barProgress + '%';
-}, 800);
-
-const prompt = `You are a chargeback defense expert with 15 years of experience winning disputes for e-commerce merchants. Generate a professional, winning chargeback defense letter.
-
-Dispute Details:
-- Payment Processor: ${currentForm.processor}
-- Dispute Type: ${currentForm.disputeType}
-- Order ID: ${currentForm.orderId}
-- Amount: $${currentForm.amount}
-- Order Date: ${currentForm.orderDate || 'Not provided'}
-- Tracking Number: ${currentForm.trackingNumber || 'Not provided'}
-- Delivery Date: ${currentForm.deliveryDate || 'Not provided'}
-- Customer Email: ${currentForm.customerEmail || 'Not provided'}
-- Customer Claim: ${currentForm.customerMessage || 'Not provided'}
-- Additional Info: ${currentForm.extraInfo || 'None'}
-
-Return ONLY a raw JSON object, no markdown, no fences:
-{"subject":"Re: Chargeback Dispute - Order #${currentForm.orderId} - $${currentForm.amount}","winProbability":85,"keyArguments":["argument 1","argument 2","argument 3"],"letter":"Full professional defense letter 300-500 words, formal tone, multiple paragraphs, addresses the specific dispute type, references order details, ends with clear request to resolve in merchant favor.","evidenceChecklist":["evidence 1","evidence 2","evidence 3","evidence 4"],"tips":["tip 1","tip 2"]}`;
+  barProgress = Math.min(barProgress + Math.random()*8, 90);
+  barFill.style.width = barProgress + '%';
+}, 1000);
 
 try {
-const response = await fetch('/api/generate', {
-method: 'POST',
-headers: { 'Content-Type': 'application/json' },
-body: JSON.stringify({ prompt })
-});
-const data = await response.json();
-const raw = data.content[0].text;
-const clean = raw.replace(/```json|```/gi, '').trim();
-currentResult = JSON.parse(clean);
-clearInterval(loadingInterval);
-clearInterval(loadingBarInterval);
-document.getElementById('loading-bar-fill').style.width = '100%';
-setTimeout(() => {
-saveToHistory(currentForm, currentResult);
-renderResult();
-}, 400);
+  const response = await fetch('/api/generate', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ disputeData: currentForm })
+  });
+  const data = await response.json();
+  if (data.error) throw new Error(data.error);
+  const raw = data.content[0].text;
+  const clean = raw.replace(/```json|```/gi, '').trim();
+  currentResult = JSON.parse(clean);
+  clearInterval(loadingInterval);
+  clearInterval(loadingBarInterval);
+  barFill.style.width = '100%';
+  setTimeout(() => {
+    saveToHistory(currentForm, currentResult);
+    renderResult();
+  }, 400);
 } catch(e) {
-clearInterval(loadingInterval);
-clearInterval(loadingBarInterval);
-document.getElementById('loading-section').classList.remove('show');
-document.getElementById('form-section').style.display = 'block';
-document.querySelector('.step-progress').style.display = 'flex';
-showError('Generation failed. Please try again.');
+  clearInterval(loadingInterval);
+  clearInterval(loadingBarInterval);
+  document.getElementById('loading-section').classList.remove('show');
+  document.getElementById('form-section').style.display = 'block';
+  document.querySelector('.step-progress').style.display = 'flex';
+  showError('Generation failed: ' + (e.message || 'Please check your API key and try again.'));
 }
 }
 
 function renderResult() {
 const r = currentResult;
 document.getElementById('res-subject').textContent = r.subject;
+document.getElementById('res-reason').textContent =
+  `Visa ${r.reasonCode || ''} \u00B7 ${r.reasonCodeLabel || ''} \u00B7 ${currentForm.processor}`;
 document.getElementById('res-score').textContent = r.winProbability + '%';
-document.getElementById('res-args').innerHTML = r.keyArguments.map((a, i) =>
-`<div class="arg-item" style="animation:slideIn 0.3s ${i * 0.1}s ease both"><span class="arg-num">0${i+1}</span>${a}</div>`
-).join('');
-document.getElementById('res-letter').textContent = r.letter;
-document.getElementById('res-evidence').innerHTML = r.evidenceChecklist.map((e, i) =>
-`<div class="evidence-item" style="animation:slideIn 0.3s ${i * 0.08}s ease both" onclick="toggleCheck(this)"><span class="checkbox"></span>${e}</div>`
-).join('');
-if (r.tips && r.tips.length) {
-document.getElementById('res-tips').innerHTML = r.tips.map((t, i) =>
-`<div class="tip-item" style="animation:slideIn 0.3s ${i * 0.1}s ease both"><span class="tip-arrow">\u2192</span>${t}</div>`
-).join('');
-}
-document.getElementById('loading-section').classList.remove('show');
-document.getElementById('result-section').classList.add('show');
+
+// Deadline
+if (r.deadlineWarning) {
+  const dl = document.getElementById('res-deadline');
+  dl.innerHTML = '\u23F0 ' + r.deadlineWarning;
+  dl.style.display = 'flex';
+} else {
+  document.getElementById('res-deadline').style.display = 'none';
 }
 
-function toggleCheck(el) {
-el.querySelector('.checkbox').classList.toggle('checked');
+// Arguments
+document.getElementById('res-args').innerHTML = r.keyArguments.map((a, i) =>
+  `<div class="arg-item" style="animation:slideIn 0.3s ${i*0.1}s ease both"><span class="arg-num">0${i+1}</span><span>${a}</span></div>`
+).join('');
+
+// Letter
+document.getElementById('res-letter').textContent = r.letter;
+
+// Processor fields
+if (r.processorFields) {
+  document.getElementById('pf-title').textContent =
+    currentForm.processor + ' Dispute Portal \u2014 Copy-Paste These Fields';
+  const pf = r.processorFields;
+  let pfHtml = '';
+  const fieldLabels = {
+    product_description: 'Product Description',
+    customer_communication: 'Customer Communication',
+    shipping_documentation: 'Shipping Documentation',
+    refund_policy: 'Refund Policy',
+    additional_evidence: 'Additional Evidence / Uncategorized Text'
+  };
+  for (const [key, label] of Object.entries(fieldLabels)) {
+    if (pf[key]) {
+      pfHtml += `<div class="pf-field">
+        <div class="pf-label">${label} <span class="pf-copy" onclick="copyField(this,'${key}')">Copy</span></div>
+        <div class="pf-value" id="pf-${key}" onclick="copyField(this.previousElementSibling.querySelector('.pf-copy'),'${key}')">${pf[key]}</div>
+      </div>`;
+    }
+  }
+  document.getElementById('res-pf-fields').innerHTML = pfHtml;
+  document.getElementById('res-pf').style.display = 'block';
+} else {
+  document.getElementById('res-pf').style.display = 'none';
+}
+
+// Evidence
+document.getElementById('res-evidence').innerHTML = r.evidenceChecklist.map((e, i) =>
+  `<div class="evidence-item" style="animation:slideIn 0.3s ${i*0.08}s ease both" onclick="toggleCheck(this)"><span class="checkbox"></span><span>${e}</span></div>`
+).join('');
+
+// Tips
+if (r.tips && r.tips.length) {
+  document.getElementById('res-tips').innerHTML = r.tips.map((t, i) =>
+    `<div class="tip-item" style="animation:slideIn 0.3s ${i*0.1}s ease both"><span class="tip-arrow">\u2192</span><span>${t}</span></div>`
+  ).join('');
+}
+
+document.getElementById('loading-section').classList.remove('show');
+document.getElementById('result-section').classList.add('show');
+window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function toggleCheck(el) { el.querySelector('.checkbox').classList.toggle('checked'); }
+
+function copyField(btn, key) {
+const text = document.getElementById('pf-' + key).textContent;
+navigator.clipboard.writeText(text);
+const origText = btn.textContent;
+btn.textContent = 'Copied!';
+btn.style.color = 'var(--green)';
+setTimeout(() => { btn.textContent = origText; btn.style.color = ''; }, 1500);
 }
 
 function copyLetter() {
@@ -576,68 +785,120 @@ const btn = document.querySelector('.btn-copy');
 btn.textContent = 'Copied!';
 btn.style.color = 'var(--green)';
 btn.style.borderColor = 'rgba(0,201,141,0.3)';
-setTimeout(() => {
-btn.textContent = 'Copy Text';
-btn.style.color = '';
-btn.style.borderColor = '';
-}, 2000);
+setTimeout(() => { btn.textContent = 'Copy Full Letter'; btn.style.color = ''; btn.style.borderColor = ''; }, 2000);
 }
 
 function downloadDefense() {
 const r = currentResult;
 const f = currentForm;
-const content = `CHARGEBACK DEFENSE LETTER
-DisputeShield -- Professional Dispute Resolution
-${'='.repeat(60)}
+const rc = reasonCodes[f.disputeType];
+const sep = '='.repeat(70);
 
-Subject: ${r.subject}
-Date: ${new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}
-Order ID: ${f.orderId}
-Amount Disputed: $${f.amount}
-Payment Processor: ${f.processor}
+let doc = `${sep}
+MERCHANT CHARGEBACK REPRESENTMENT — DEFENSE PACKAGE
+Generated by DisputeShield | ${new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}
+${sep}
 
-${'='.repeat(60)}
+CASE REFERENCE
+  Merchant:          ${f.businessName || 'N/A'}
+  Order ID:          ${f.orderId}
+  Dispute Amount:    $${f.amount}
+  Payment Processor: ${f.processor}
+  Dispute Type:      ${f.disputeType}
+  Visa Reason Code:  ${rc.visa} (${rc.label})
+  MC Reason Code:    ${rc.mc}
+  Win Probability:   ${r.winProbability}%
+
+${sep}
+
+FORMAL REPRESENTMENT LETTER
+(Copy this into your ${f.processor} dispute response)
 
 ${r.letter}
 
-${'='.repeat(60)}
-EVIDENCE CHECKLIST -- Attach the following to your submission:
-${r.evidenceChecklist.map((e,i) => `${i+1}. ${e}`).join('\n')}
+${sep}
 
-${'='.repeat(60)}
-Generated by DisputeShield -- disputeshield.app
-Estimated Win Rate: ${r.winProbability}%`;
+KEY ARGUMENTS
+${r.keyArguments.map((a,i) => `  ${i+1}. ${a}`).join('\n\n')}
 
-const blob = new Blob([content], {type:'text/plain'});
+${sep}
+
+EVIDENCE CHECKLIST
+Gather and attach ALL of the following to your dispute response:
+
+${r.evidenceChecklist.map((e,i) => `  [ ] ${i+1}. ${e}`).join('\n')}
+
+${sep}`;
+
+if (r.processorFields) {
+doc += `
+
+${f.processor.toUpperCase()} DISPUTE PORTAL — FIELD VALUES
+Copy-paste these into each field of your ${f.processor} dispute form:
+
+`;
+const labels = {
+  product_description: 'PRODUCT DESCRIPTION',
+  customer_communication: 'CUSTOMER COMMUNICATION',
+  shipping_documentation: 'SHIPPING DOCUMENTATION',
+  refund_policy: 'REFUND POLICY',
+  additional_evidence: 'ADDITIONAL EVIDENCE'
+};
+for (const [key, label] of Object.entries(labels)) {
+  if (r.processorFields[key]) {
+    doc += `--- ${label} ---\n${r.processorFields[key]}\n\n`;
+  }
+}
+doc += sep;
+}
+
+doc += `
+
+PRO TIPS
+${r.tips.map((t,i) => `  ${i+1}. ${t}`).join('\n')}
+
+${sep}
+${r.deadlineWarning ? 'DEADLINE: ' + r.deadlineWarning + '\n' + sep + '\n' : ''}
+Generated by DisputeShield — disputeshield.app
+This document is for informational purposes. Not legal advice.
+${sep}`;
+
+const blob = new Blob([doc], {type:'text/plain'});
 const url = URL.createObjectURL(blob);
 const a = document.createElement('a');
-a.href = url; a.download = `DisputeShield_Defense_Order_${f.orderId}.txt`;
-a.click(); URL.revokeObjectURL(url);
+a.href = url;
+a.download = `DisputeShield_Defense_${f.orderId.replace(/[^a-zA-Z0-9]/g,'')}_${rc.visa.replace('.','')}.txt`;
+a.click();
+URL.revokeObjectURL(url);
 }
 
 function resetForm() {
 document.getElementById('result-section').classList.remove('show');
 document.getElementById('form-section').style.display = 'block';
 document.querySelector('.step-progress').style.display = 'flex';
-document.getElementById('orderId').value = '';
-document.getElementById('amount').value = '';
-document.getElementById('orderDate').value = '';
-document.getElementById('customerEmail').value = '';
-document.getElementById('trackingNumber').value = '';
-document.getElementById('deliveryDate').value = '';
-document.getElementById('customerMessage').value = '';
-document.getElementById('extraInfo').value = '';
+['businessName','orderId','amount','orderDate','productDescription','customerName','customerEmail',
+ 'trackingNumber','shippingDate','deliveryDate','refundPolicyURL','customerIP','previousOrders',
+ 'customerMessage','extraInfo'].forEach(id => document.getElementById(id).value = '');
+document.getElementById('shippingCarrier').selectedIndex = 0;
+['avs-group','cvv-group','addr-group'].forEach(g => {
+  document.querySelectorAll(`#${g} .toggle-btn`).forEach(b => b.classList.remove('active','active-no','active-na'));
+  document.querySelector(`#${g} .toggle-btn:last-child`).classList.add('active-na');
+});
 currentStep = 1;
 updateStepProgress(1);
 window.scrollTo({top:0,behavior:'smooth'});
 }
 
-// Initialize template for default selected type
+// Init
 document.addEventListener('DOMContentLoaded', function() {
-const textarea = document.getElementById('customerMessage');
 if (disputeTemplates[selectedType]) {
-textarea.value = disputeTemplates[selectedType];
+  document.getElementById('customerMessage').value = disputeTemplates[selectedType];
 }
+// Set N/A defaults
+document.querySelectorAll('.toggle-group').forEach(g => {
+  const last = g.querySelector('.toggle-btn:last-child');
+  if (last) { last.classList.add('active-na'); last.dataset.value = 'N/A'; }
+});
 });
 </script>
 
