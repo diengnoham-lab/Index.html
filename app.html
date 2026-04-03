@@ -179,6 +179,35 @@ select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
 @keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-4px)}40%,80%{transform:translateX(4px)}}
 @keyframes slideIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:translateX(0)}}
+@keyframes modalIn{from{opacity:0;transform:scale(0.92) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+
+/* PAYWALL MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(8px);z-index:1000;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.show{display:flex;}
+.modal{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:40px 36px;max-width:480px;width:100%;text-align:center;animation:modalIn 0.3s ease both;position:relative;}
+.modal-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;padding:4px 8px;transition:color 0.2s;}
+.modal-close:hover{color:var(--text);}
+.modal-icon{width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,rgba(26,108,255,0.15),rgba(0,222,255,0.1));border:1px solid rgba(26,108,255,0.25);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:28px;}
+.modal h2{font-size:24px;font-weight:800;letter-spacing:-0.5px;margin-bottom:8px;}
+.modal h2 em{font-style:normal;background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.modal p{font-size:14px;color:var(--dim);line-height:1.6;margin-bottom:24px;}
+.modal-uses{display:flex;justify-content:center;gap:8px;margin-bottom:20px;}
+.modal-dot{width:12px;height:12px;border-radius:50%;border:2px solid var(--border);background:transparent;}
+.modal-dot.used{background:var(--red);border-color:var(--red);}
+.modal-features{text-align:left;margin-bottom:28px;}
+.modal-feat{display:flex;align-items:center;gap:10px;padding:8px 0;font-size:13px;color:var(--dim);}
+.modal-feat::before{content:'\2713';color:var(--green);font-weight:700;font-size:12px;flex-shrink:0;}
+.modal-price{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:20px;}
+.modal-price strong{color:var(--text);font-size:14px;}
+.modal-cta{display:block;width:100%;background:linear-gradient(135deg,var(--blue),#0050E0);color:#fff;font-family:'Bricolage Grotesque',sans-serif;font-size:15px;font-weight:700;padding:16px;border-radius:12px;border:none;cursor:pointer;text-decoration:none;text-align:center;box-shadow:0 4px 20px rgba(26,108,255,0.35);transition:all 0.25s;}
+.modal-cta:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(26,108,255,0.5);}
+.modal-trial{font-size:11px;color:var(--muted);margin-top:12px;}
+
+/* USAGE BADGE */
+.usage-badge{display:flex;align-items:center;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--dim);background:var(--surface);border:1px solid var(--border);padding:4px 12px;border-radius:6px;margin-bottom:20px;justify-content:center;}
+.usage-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--green);}
+.usage-badge.warn .dot{background:var(--gold);}
+.usage-badge.limit .dot{background:var(--red);}
 
 @media(max-width:600px){
 .grid-2,.grid-3{grid-template-columns:1fr;}
@@ -224,6 +253,9 @@ Dispute<span>Shield</span>
 <div class="stat"><div class="stat-val">Visa + MC</div><div class="stat-label">Reason Codes</div></div>
 <div class="stat"><div class="stat-val">$0</div><div class="stat-label">Legal Fees</div></div>
 </div>
+
+<!-- USAGE BADGE -->
+<div class="usage-badge" id="usage-badge"></div>
 
 <!-- STEP PROGRESS -->
 <div class="step-progress" id="step-progress">
@@ -500,6 +532,30 @@ Generate Bank-Grade Defense
 </div>
 </div>
 
+<!-- PAYWALL MODAL -->
+<div class="modal-overlay" id="paywall-modal">
+<div class="modal">
+<button class="modal-close" onclick="closePaywall()">&times;</button>
+<div class="modal-icon">&#x1F6E1;</div>
+<h2>Upgrade to <em>Pro</em></h2>
+<p>You've used all 3 free defense generations. Upgrade to Pro for unlimited bank-grade chargeback defenses.</p>
+<div class="modal-uses" id="modal-dots"></div>
+<div class="modal-features">
+<div class="modal-feat">Unlimited defense generations</div>
+<div class="modal-feat">All Visa &amp; Mastercard reason codes</div>
+<div class="modal-feat">Processor-specific portal fields</div>
+<div class="modal-feat">Dispute tracking dashboard</div>
+<div class="modal-feat">Priority AI with longer, detailed letters</div>
+<div class="modal-feat">Export &amp; download all formats</div>
+</div>
+<div class="modal-price"><strong>$49/month</strong> &middot; Cancel anytime</div>
+<a class="modal-cta" href="https://buy.stripe.com/test_7sY5kE0Hr4G58WheSx3ks00" target="_blank" rel="noopener">
+Start 7-Day Free Trial &rarr;
+</a>
+<div class="modal-trial">No charge for 7 days. Cancel anytime during trial.</div>
+</div>
+</div>
+
 <script>
 let selectedProcessor = 'Stripe';
 let selectedType = 'Item Not Received';
@@ -530,6 +586,74 @@ const loadingMsgs = [
 'Finalizing defense package...'
 ];
 let loadingInterval, loadingBarInterval;
+
+// ========== RATE LIMITING & PAYWALL ==========
+const FREE_LIMIT = 3;
+const STORAGE_USES_KEY = 'ds_uses';
+const STORAGE_PRO_KEY = 'ds_pro_token';
+const STRIPE_LINK = 'https://buy.stripe.com/test_7sY5kE0Hr4G58WheSx3ks00';
+
+function getUsageCount() {
+  return parseInt(localStorage.getItem(STORAGE_USES_KEY) || '0', 10);
+}
+function incrementUsage() {
+  const count = getUsageCount() + 1;
+  localStorage.setItem(STORAGE_USES_KEY, count.toString());
+  return count;
+}
+function isProUser() {
+  return localStorage.getItem(STORAGE_PRO_KEY) === 'active';
+}
+function updateUsageBadge() {
+  const badge = document.getElementById('usage-badge');
+  if (isProUser()) {
+    badge.className = 'usage-badge';
+    badge.innerHTML = '<span class="dot"></span> Pro Plan \u2014 Unlimited';
+    return;
+  }
+  const used = getUsageCount();
+  const remaining = Math.max(0, FREE_LIMIT - used);
+  badge.className = 'usage-badge' + (remaining <= 1 ? (remaining === 0 ? ' limit' : ' warn') : '');
+  badge.innerHTML = `<span class="dot"></span> ${remaining} of ${FREE_LIMIT} free defenses remaining`;
+}
+function canGenerate() {
+  if (isProUser()) return true;
+  return getUsageCount() < FREE_LIMIT;
+}
+function showPaywall() {
+  const dots = document.getElementById('modal-dots');
+  const used = getUsageCount();
+  dots.innerHTML = Array.from({length: FREE_LIMIT}, (_, i) =>
+    `<div class="modal-dot${i < used ? ' used' : ''}"></div>`
+  ).join('');
+  document.getElementById('paywall-modal').classList.add('show');
+}
+function closePaywall() {
+  document.getElementById('paywall-modal').classList.remove('show');
+}
+// Close modal on overlay click
+document.addEventListener('click', function(e) {
+  if (e.target.id === 'paywall-modal') closePaywall();
+});
+
+// Check for pro activation via URL param (after Stripe redirect)
+function checkProActivation() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('pro') === 'activated' || params.get('session_id')) {
+    localStorage.setItem(STORAGE_PRO_KEY, 'active');
+    window.history.replaceState({}, '', window.location.pathname);
+  }
+}
+
+// ========== INPUT SANITIZATION (client-side) ==========
+function sanitizeInput(str, maxLen) {
+  if (!str) return '';
+  return str
+    .slice(0, maxLen || 500)
+    .replace(/<[^>]*>/g, '')
+    .replace(/[{}[\]\\]/g, '')
+    .trim();
+}
 
 function selectProcessor(btn, val) {
 document.querySelectorAll('#processor-chips .chip-btn').forEach(b => b.classList.remove('active'));
@@ -627,32 +751,38 @@ localStorage.setItem('disputeshield_history', JSON.stringify(history));
 }
 
 async function generate() {
+// Check rate limit first
+if (!canGenerate()) { showPaywall(); return; }
+
 const orderId = document.getElementById('orderId').value.trim();
 const amount = document.getElementById('amount').value.trim();
 if (!orderId || !amount) { showError('Order ID and Amount are required to generate a defense.'); return; }
+if (isNaN(parseFloat(amount))) { showError('Amount must be a valid number.'); return; }
 hideError();
 
+// Sanitize all inputs before sending
 currentForm = {
-  processor: selectedProcessor,
-  disputeType: selectedType,
-  orderId, amount,
-  businessName: document.getElementById('businessName').value.trim(),
-  productDescription: document.getElementById('productDescription').value.trim(),
+  processor: sanitizeInput(selectedProcessor, 50),
+  disputeType: sanitizeInput(selectedType, 50),
+  orderId: sanitizeInput(orderId, 100),
+  amount: parseFloat(amount).toFixed(2),
+  businessName: sanitizeInput(document.getElementById('businessName').value, 200),
+  productDescription: sanitizeInput(document.getElementById('productDescription').value, 500),
   orderDate: document.getElementById('orderDate').value,
-  customerName: document.getElementById('customerName').value.trim(),
-  customerEmail: document.getElementById('customerEmail').value.trim(),
+  customerName: sanitizeInput(document.getElementById('customerName').value, 100),
+  customerEmail: sanitizeInput(document.getElementById('customerEmail').value, 100),
   shippingCarrier: document.getElementById('shippingCarrier').value,
-  trackingNumber: document.getElementById('trackingNumber').value.trim(),
+  trackingNumber: sanitizeInput(document.getElementById('trackingNumber').value, 100),
   shippingDate: document.getElementById('shippingDate').value,
   deliveryDate: document.getElementById('deliveryDate').value,
-  refundPolicyURL: document.getElementById('refundPolicyURL').value.trim(),
+  refundPolicyURL: sanitizeInput(document.getElementById('refundPolicyURL').value, 200),
   avsResult: getToggleValue('avs-group'),
   cvvMatch: getToggleValue('cvv-group'),
   addressMatch: getToggleValue('addr-group'),
-  customerIP: document.getElementById('customerIP').value.trim(),
-  previousOrders: document.getElementById('previousOrders').value.trim(),
-  customerMessage: document.getElementById('customerMessage').value.trim(),
-  extraInfo: document.getElementById('extraInfo').value.trim()
+  customerIP: sanitizeInput(document.getElementById('customerIP').value, 100),
+  previousOrders: sanitizeInput(document.getElementById('previousOrders').value, 300),
+  customerMessage: sanitizeInput(document.getElementById('customerMessage').value, 1000),
+  extraInfo: sanitizeInput(document.getElementById('extraInfo').value, 1000)
 };
 
 document.getElementById('form-section').style.display = 'none';
@@ -673,16 +803,39 @@ loadingBarInterval = setInterval(() => {
 }, 1000);
 
 try {
+  const headers = { 'Content-Type': 'application/json' };
+  if (isProUser()) headers['x-ds-token'] = 'pro_active';
+
   const response = await fetch('/api/generate', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers,
     body: JSON.stringify({ disputeData: currentForm })
   });
   const data = await response.json();
+
+  // Handle rate limit responses
+  if (response.status === 402) {
+    clearInterval(loadingInterval);
+    clearInterval(loadingBarInterval);
+    document.getElementById('loading-section').classList.remove('show');
+    document.getElementById('form-section').style.display = 'block';
+    document.querySelector('.step-progress').style.display = 'flex';
+    showPaywall();
+    return;
+  }
+  if (response.status === 429) {
+    throw new Error('Service is at capacity. Please try again later.');
+  }
   if (data.error) throw new Error(data.error);
+
   const raw = data.content[0].text;
   const clean = raw.replace(/```json|```/gi, '').trim();
   currentResult = JSON.parse(clean);
+
+  // Track usage on success
+  if (!isProUser()) incrementUsage();
+  updateUsageBadge();
+
   clearInterval(loadingInterval);
   clearInterval(loadingBarInterval);
   barFill.style.width = '100%';
@@ -891,6 +1044,13 @@ window.scrollTo({top:0,behavior:'smooth'});
 
 // Init
 document.addEventListener('DOMContentLoaded', function() {
+// Check pro activation from Stripe redirect
+checkProActivation();
+
+// Update usage badge
+updateUsageBadge();
+
+// Auto-fill template
 if (disputeTemplates[selectedType]) {
   document.getElementById('customerMessage').value = disputeTemplates[selectedType];
 }
