@@ -549,9 +549,9 @@ Generate Bank-Grade Defense
 <div class="modal-feat">Export &amp; download all formats</div>
 </div>
 <div class="modal-price"><strong>$49/month</strong> &middot; Cancel anytime</div>
-<a class="modal-cta" href="https://buy.stripe.com/test_7sY5kE0Hr4G58WheSx3ks00" target="_blank" rel="noopener">
+<button class="modal-cta" onclick="goToStripe()" type="button">
 Start 7-Day Free Trial &rarr;
-</a>
+</button>
 <div class="modal-trial">No charge for 7 days. Cancel anytime during trial.</div>
 </div>
 </div>
@@ -630,6 +630,15 @@ function showPaywall() {
 }
 function closePaywall() {
   document.getElementById('paywall-modal').classList.remove('show');
+}
+function goToStripe() {
+  const url = STRIPE_LINK;
+  // Try window.open first, fallback to direct navigation
+  const win = window.open(url, '_blank');
+  if (!win || win.closed) {
+    // Popup was blocked, navigate directly
+    window.location.href = url;
+  }
 }
 // Close modal on overlay click
 document.addEventListener('click', function(e) {
