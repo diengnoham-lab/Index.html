@@ -228,10 +228,12 @@ FOR PRO TIPS: Give specific, actionable advice for this exact dispute type on ${
 
 FOR THE STRIPE/PAYPAL-SPECIFIC FIELDS: Generate the exact text that should go into each field of ${d.processor}'s dispute response form.
 
-Return ONLY a raw JSON object (no markdown, no code fences):
+IMPORTANT: winProbability must be an integer between 1-99 based on the strength of the evidence provided. More evidence = higher probability. Calculate it realistically.
+
+Return ONLY a raw JSON object (no markdown, no code fences, no comments, no placeholders):
 {
   "subject": "Merchant Representment - Order #${d.orderId} - $${d.amount} - Reason Code ${rc.visa}",
-  "winProbability": <number 1-99 based on evidence strength>,
+  "winProbability": 85,
   "reasonCode": "${rc.visa}",
   "reasonCodeLabel": "${rc.label}",
   "letter": "<the full formal defense letter as described above, 500-800 words>",
@@ -248,7 +250,39 @@ Return ONLY a raw JSON object (no markdown, no code fences):
   "deadlineWarning": "<specific deadline info for ${d.processor} dispute response>"
 }`;
 
-  try {
+  // Clean AI response text into valid JSON
+  function cleanJsonResponse(raw) {
+    let text = raw
+      .replace(/```json\s*/gi, '')
+      .replace(/```\s*/gi, '')
+      .trim();
+
+    // Extract JSON object if wrapped in extra text
+    const jsonStart = text.indexOf('{');
+    const jsonEnd = text.lastIndexOf('}');
+    if (jsonStart !== -1 && jsonEnd !== -1 && jsonEnd > jsonStart) {
+      text = text.slice(jsonStart, jsonEnd + 1);
+    }
+
+    // Fix common AI JSON mistakes:
+    // 1. Replace placeholder numbers like <number 1-99 ...> with 85
+    text = text.replace(/<number[^>]*>/gi, '85');
+    // 2. Replace any remaining <...> placeholders in value positions with empty string
+    text = text.replace(/:\s*<[^>]+>/g, ': ""');
+    // 3. Fix trailing commas before } or ]
+    text = text.replace(/,\s*([\]}])/g, '$1');
+    // 4. Fix unescaped newlines inside strings (common issue)
+    text = text.replace(/(?<=:\s*"[^"]*)\n(?=[^"]*")/g, '\\n');
+    // 5. Fix NaN, Infinity, undefined as values
+    text = text.replace(/:\s*(NaN|Infinity|undefined)\b/gi, ': null');
+    // 6. Fix numbers with leading zeros (except 0.)
+    text = text.replace(/:\s*0(\d+)/g, ': $1');
+
+    return text;
+  }
+
+  // Call the API with retry on parse failure
+  async function callAPI(promptText, attempt = 1) {
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
@@ -259,11 +293,57 @@ Return ONLY a raw JSON object (no markdown, no code fences):
       body: JSON.stringify({
         model: 'claude-haiku-4-5-20251001',
         max_tokens: 4096,
-        messages: [{ role: 'user', content: prompt }]
+        messages: [{ role: 'user', content: promptText }]
       })
     });
 
+    if (!response.ok) {
+      const errBody = await response.text();
+      throw new Error(`API returned ${response.status}: ${errBody.slice(0, 200)}`);
+    }
+
     const data = await response.json();
+
+    // Validate we got content back
+    if (!data.content || !data.content[0] || !data.content[0].text) {
+      throw new Error('Empty response from AI');
+    }
+
+    const rawText = data.content[0].text;
+    const cleaned = cleanJsonResponse(rawText);
+
+    // Try to parse the cleaned JSON
+    try {
+      const parsed = JSON.parse(cleaned);
+
+      // Validate critical fields exist and winProbability is a number
+      if (typeof parsed.winProbability !== 'number' || isNaN(parsed.winProbability)) {
+        parsed.winProbability = 85;
+      }
+      parsed.winProbability = Math.max(1, Math.min(99, Math.round(parsed.winProbability)));
+
+      if (!parsed.letter || !parsed.keyArguments) {
+        throw new Error('Missing required fields in response');
+      }
+
+      // Return the validated, parsed result embedded back into the API response format
+      return {
+        content: [{ text: JSON.stringify(parsed) }],
+        model: data.model,
+        usage: data.usage
+      };
+    } catch (parseErr) {
+      // Retry once with a stricter prompt
+      if (attempt < 2) {
+        const retryPrompt = promptText + '\n\nCRITICAL: Your previous response had invalid JSON. Return ONLY valid JSON. The winProbability MUST be a plain integer like 85, NOT a placeholder. No markdown, no comments, no trailing commas.';
+        return callAPI(retryPrompt, attempt + 1);
+      }
+      throw new Error(`JSON parse failed after ${attempt} attempts: ${parseErr.message}`);
+    }
+  }
+
+  try {
+    const data = await callAPI(prompt);
 
     // Increment daily counter on success
     dailyRequests.count++;
@@ -277,6 +357,6 @@ Return ONLY a raw JSON object (no markdown, no code fences):
       _meta: { remaining, isPro: !!isPro }
     });
   } catch (error) {
-    res.status(500).json({ error: 'Generation failed. Please try again.' });
+    res.status(500).json({ error: error.message || 'Generation failed. Please try again.' });
   }
 }

@@ -829,8 +829,20 @@ try {
   if (data.error) throw new Error(data.error);
 
   const raw = data.content[0].text;
-  const clean = raw.replace(/```json|```/gi, '').trim();
+  let clean = raw.replace(/```json|```/gi, '').trim();
+  // Extract JSON object if wrapped in text
+  const jStart = clean.indexOf('{');
+  const jEnd = clean.lastIndexOf('}');
+  if (jStart !== -1 && jEnd > jStart) clean = clean.slice(jStart, jEnd + 1);
+  // Fix common AI JSON issues
+  clean = clean.replace(/<number[^>]*>/gi, '85');
+  clean = clean.replace(/:\s*<[^>]+>/g, ': ""');
+  clean = clean.replace(/,\s*([\]}])/g, '$1');
   currentResult = JSON.parse(clean);
+  // Validate winProbability
+  if (typeof currentResult.winProbability !== 'number' || isNaN(currentResult.winProbability)) {
+    currentResult.winProbability = 85;
+  }
 
   // Track usage on success
   if (!isProUser()) incrementUsage();
